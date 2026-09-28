@@ -60,37 +60,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterButtons = document.querySelectorAll(".filter-btn");
 
     // ==========================================
-    // ÁREA VIRTUAL — MUITO maior para dar espaço
+    // ÁREA VIRTUAL — mais compacta (fotos mais próximas)
     // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // Desktop: 4.5× largura × 6× altura
-    // Mobile: 4.5× largura × 10× altura
-    const VIRTUAL_W = vw * 3.6;
-    const VIRTUAL_H = isMobile ? vh * 7.5 : vh * 4.5;
+    // 👇 VIRTUAL_W reduzido de 5.5 → 3.2 (colunas mais próximas)
+    // 👇 VIRTUAL_H reduzido de 2.0 → 1.6 (linhas mais próximas)
+    const VIRTUAL_W = isMobile ? vw * 4.5 : vw * 3.2;
+    const VIRTUAL_H = isMobile ? vh * 7.5 : vh * 1.6;
 
     gallery.style.width = VIRTUAL_W + "px";
     gallery.style.height = VIRTUAL_H + "px";
 
     // ==========================================
-    // GRELHA — menos colunas e linhas para mais espaço
+    // GRELHA — 8 colunas × 4 linhas
     // ==========================================
-    const COLS = isMobile ? 2 : 4;
-    const ROWS = isMobile ? 10 : 6;
+    const COLS = isMobile ? 2 : 8;
+    const ROWS = isMobile ? 10 : 4;
     const CELL_W = VIRTUAL_W / COLS;
     const CELL_H = VIRTUAL_H / ROWS;
 
-    // 👇 Imagens maiores
-    const IMG_WIDTH = isMobile ? 220 : 340;
+    // 👇 Fotos maiores
+    const IMG_WIDTH = isMobile ? 260 : 440;
 
+    // Células em ordem sequencial
     const cells = [];
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             cells.push({ r, c });
         }
     }
-    cells.sort(() => Math.random() - 0.5);
+
+    // ==========================================
+    // Pseudo-random determinístico
+    // ==========================================
+    function seededRandom(seed) {
+        const x = Math.sin(seed * 12.9898) * 43758.5453;
+        return x - Math.floor(x);
+    }
 
     const items = [];
 
@@ -103,22 +111,33 @@ document.addEventListener("DOMContentLoaded", () => {
         item.classList.add("gallery-item");
         item.dataset.photographer = data.photographer;
 
-        // Jitter MUITO reduzido para não invadir a célula vizinha
-        const jitterX = (Math.random() - 0.5) * (CELL_W * 0.15);
-        const jitterY = (Math.random() - 0.5) * (CELL_H * 0.1);
+        const slackX = CELL_W - IMG_WIDTH;
+        const slackY = CELL_H * 0.5;
 
-        const baseX = cell.c * CELL_W + (CELL_W - IMG_WIDTH) / 2 + jitterX;
-        const baseY = cell.r * CELL_H + (CELL_H * 0.15) + jitterY;
+        // Jitter determinístico
+        const seedX = i * 1.37 + 0.5;
+        const seedY = i * 2.71 + 1.3;
+
+        const jitterX = (seededRandom(seedX) - 0.5) * slackX * 0.8;
+        const jitterY = (seededRandom(seedY) - 0.5) * slackY;
+
+        const baseX = cell.c * CELL_W + slackX / 2 + jitterX;
+        const baseY = cell.r * CELL_H + (CELL_H * 0.1) + jitterY;
 
         item.style.left = baseX + "px";
         item.style.top = baseY + "px";
         item.style.width = IMG_WIDTH + "px";
-        // height NÃO é definida — a imagem define-a naturalmente
 
         const img = document.createElement("img");
         img.src = data.src;
         img.alt = `Fotografia de ${data.photographer}`;
         img.loading = "lazy";
+
+        img.style.maxHeight = (CELL_H * 0.85) + "px";
+        img.style.width = "100%";
+        img.style.height = "auto";
+        img.style.objectFit = "contain";
+
         img.onerror = () => {
             console.error("❌ Falhou fotografia:", data.src);
             img.style.background = "#222";

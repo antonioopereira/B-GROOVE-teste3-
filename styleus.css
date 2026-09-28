@@ -269,3 +269,57 @@ html, body {
     background: rgba(253, 240, 213, 0.15);
     border-radius: 2px;
 }
+
+@media (max-width: 768px) {
+    .us-content {
+        padding: 120px 24px 80px;
+        gap: 40px;
+        justify-content: flex-start;
+        overflow-y: auto;
+    }
+
+    .us-title {
+        font-size: clamp(3rem, 16vw, 6rem);
+    }
+
+    .us-text {
+        font-size: 14px;
+    }
+
+    .us-tagline {
+        font-size: 15px;
+    }
+
+    /* Logo e nav */
+    .logo-container {
+        top: 20px;
+    }
+
+    .logo-container img {
+        height: 42px;
+    }
+
+    .nav-close {
+        top: 20px;
+        right: 20px;
+    }
+
+    .nav-content a {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-desc,
+    .footer-instagram {
+        font-size: 11px;
+    }
+}

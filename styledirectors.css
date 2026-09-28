@@ -108,9 +108,7 @@ html, body {
     transform: rotate(90deg);
 }
 
-/* ==========================================================================
-   2. FILTROS
-   ========================================================================== */
+
 .filters {
     position: fixed;
     top: 50%;
@@ -148,7 +146,7 @@ html, body {
 }
 
 /* ==========================================================================
-   3. GALERIA
+   4. GALERIA
    ========================================================================== */
 .gallery-container {
     position: fixed;
@@ -167,22 +165,17 @@ html, body {
 }
 
 /* ==========================================================================
-   4. ITEM DA GALERIA
+   5. ITEM DA GALERIA
    ========================================================================== */
 .gallery-item {
     position: absolute;
     overflow: hidden;
     will-change: transform, opacity;
-    transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
     background: #111;
     cursor: pointer;
 }
 
-.gallery-item:hover {
-    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.9);
-}
-
-/* 👇 ESSENCIAL — esconde cartões filtrados */
 .gallery-item.hidden {
     opacity: 0;
     pointer-events: none;
@@ -208,7 +201,7 @@ html, body {
 }
 
 /* ==========================================================================
-   5. WRAPPER DO IFRAME DO VIMEO
+   6. WRAPPER DO IFRAME DO VIMEO
    ========================================================================== */
 .video-wrapper {
     position: absolute;
@@ -231,7 +224,7 @@ html, body {
 }
 
 /* ==========================================================================
-   6. TÍTULO (marca — trabalho)
+   7. TÍTULO (marca — trabalho)
    ========================================================================== */
 .video-title {
     position: absolute;
@@ -244,7 +237,6 @@ html, body {
     letter-spacing: 0.5px;
     color: #FDF0D5;
     text-align: center;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.95);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -282,7 +274,7 @@ html, body {
 }
 
 /* ==========================================================================
-   7. FOOTER
+   8. FOOTER
    ========================================================================== */
 .site-footer {
     position: fixed;
@@ -337,7 +329,28 @@ html, body {
 }
 
 /* ==========================================================================
-   8. RESPONSIVO
+   9. CALLOUT — "call a friend: <nome>"
+   ========================================================================== */
+.filter-callout {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    color: #FDF0D5;
+    font-family: 'General Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: center;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ==========================================================================
+   10. RESPONSIVO — MOBILE
    ========================================================================== */
 @media (max-width: 768px) {
 
@@ -369,18 +382,20 @@ html, body {
         flex-wrap: wrap;
         gap: 8px;
         padding: 0 15px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        padding-bottom: 20px;
+        z-index: 100;
     }
 
     .filter-btn {
-        font-size: 13px;
+        font-size: 12px;
         letter-spacing: 0.5px;
         padding: 6px 12px;
         border: 1px solid rgba(253, 240, 213, 0.15);
         border-radius: 20px;
-        opacity: 0.5;
+        opacity: 0.6;
     }
 
-    .filter-btn:hover,
     .filter-btn.active {
         opacity: 1;
         transform: none;
@@ -402,11 +417,37 @@ html, body {
         font-size: 14px;
     }
 
+    /* Scroll vertical */
+    html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+    }
+
+    .gallery-container {
+        position: relative !important;
+        width: 100vw !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .gallery {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+    }
+
+    .gallery-item {
+        will-change: auto;
+    }
+
     .site-footer {
-        bottom: 15px;
+        position: relative;
+        bottom: auto;
+        margin-top: 60px;
         flex-direction: column;
-        gap: 8px;
-        padding: 0 20px;
+        gap: 10px;
+        padding: 30px 20px;
         text-align: center;
     }
 
@@ -414,36 +455,9 @@ html, body {
     .footer-instagram {
         font-size: 11px;
     }
-}
 
-/* ==========================================================================
-   TEXTO DE FUNDO — "call a friend."
-   ========================================================================== */
-.bg-text-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 3vh;
-}
-
-.bg-word {
-    font-family: 'Harmattan', sans-serif;
-    font-weight: 400;
-    font-size: clamp(6rem, 18vw, 24rem);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
-    color: #FDF0D5;
-    opacity: 0.06;
-    white-space: nowrap;
-    pointer-events: none;
-    text-align: center;
-    transform: translateY(35%);
+    .filter-callout {
+        font-size: 22px;
+        bottom: 20px;
+    }
 }

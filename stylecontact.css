@@ -285,3 +285,75 @@ a.contact-link:hover {
         margin-bottom: 20px;
     }
 }
+
+@media (max-width: 900px) {
+    .contact-content {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 140px 30px 100px;
+        gap: 40px;
+        overflow-y: auto;
+    }
+
+    .contact-left,
+    .contact-right {
+        max-width: 100%;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .contact-block {
+        align-items: flex-start;
+    }
+
+    .contact-title {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .contact-subtitle {
+        font-size: 13px;
+    }
+
+    .contact-link {
+        font-size: 20px;
+    }
+
+    a.contact-link:hover {
+        transform: translateX(6px);
+    }
+
+    /* Logo e nav */
+    .logo-container {
+        top: 20px;
+    }
+
+    .logo-container img {
+        height: 42px;
+    }
+
+    .nav-close {
+        top: 20px;
+        right: 20px;
+    }
+
+    .nav-content a {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-desc,
+    .footer-instagram {
+        font-size: 11px;
+    }
+}

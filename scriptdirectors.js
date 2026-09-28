@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
-    // DETEÇÃO DE TELEMÓVEL
+    // DETEÇÃO DE MOBILE
     // ==========================================
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -31,13 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
+    // TEXTO DE FUNDO — nome do diretor
+    // ==========================================
+    const bgDirectorName = document.getElementById("bg-director-name");
+
+    const directorNames = {
+        "andre-chitas": "André Chitas",
+        "goncalo-xz": "Gonçalo Xz",
+        "ines-monteiro": "Inês Monteiro"
+    };
+
+    // ==========================================
+    // CALLOUT — "call a friend: <nome>"
+    // ==========================================
+    const filterCallout = document.getElementById("filter-callout");
+
+    function updateBgText(filter) {
+        if (!bgDirectorName) return;
+
+        if (filter === "all") {
+            bgDirectorName.textContent = "everyone";
+        } else {
+            bgDirectorName.textContent = directorNames[filter] || "";
+        }
+    }
+
+    // ==========================================
     // DADOS DOS VÍDEOS
     // ==========================================
     const videoData = [
         // ========== ANDRÉ CHITAS ==========
         { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
         { id: "1228562721", brand: "BIS", title: "Projeto 02", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
-        { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp"},
+        { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
         { id: "1228563134", brand: "Marca D", title: "Projeto 04", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-11.webp" },
         { id: "1229244984", brand: "Marca E", title: "Projeto 05", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
         { id: "951206509",  brand: "Marca F", title: "Projeto 06", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
@@ -58,46 +84,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ========== INÊS MONTEIRO ==========
         { id: "1228567548", brand: "Marca S", title: "Projeto 19", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
-        { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp"  },
-        { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp"  },
-        { id: "1229127014", brand: "Marca V", title: "Projeto 22", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp"  },
-        { id: "1229127593", brand: "Marca W", title: "Projeto 23", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp"  },
-        { id: "1229129641", brand: "Marca X", title: "Projeto 24", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp"  }
+        { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
+        { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
+        { id: "1229127014", brand: "Marca V", title: "Projeto 22", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
+        { id: "1229127593", brand: "Marca W", title: "Projeto 23", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
+        { id: "1229129641", brand: "Marca X", title: "Projeto 24", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
     const gallery = document.getElementById("gallery");
     const filterButtons = document.querySelectorAll(".filter-btn");
 
     // ==========================================
-    // ÁREA VIRTUAL
+    // ÁREA VIRTUAL (desktop) — 4 linhas, spread horizontal
     // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const VIRTUAL_W = vw * 3.0;
-    const VIRTUAL_H = isMobile ? vh * 6.0 : vh * 3.0;
+    const VIRTUAL_W = vw * 5.5;
+    const VIRTUAL_H = vh * 1.8;
 
     gallery.style.width = VIRTUAL_W + "px";
     gallery.style.height = VIRTUAL_H + "px";
 
     // ==========================================
-    // GRELHA
+    // GRELHA (desktop) — 8 colunas × 4 linhas
     // ==========================================
-    const COLS = isMobile ? 2 : 5;
-    const ROWS = isMobile ? 12 : 5;
+    const COLS = 8;
+    const ROWS = 4;
     const CELL_W = VIRTUAL_W / COLS;
     const CELL_H = VIRTUAL_H / ROWS;
 
-    const FILL_RATIO = 0.70;
+    const FILL_RATIO = 0.62;
     const RATIO = 16 / 9;
 
+    // Células em ordem sequencial (sem shuffle)
     const cells = [];
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             cells.push({ r, c });
         }
     }
-    cells.sort(() => Math.random() - 0.5);
+
+    // ==========================================
+    // Pseudo-random determinístico
+    // ==========================================
+    function seededRandom(seed) {
+        const x = Math.sin(seed * 12.9898) * 43758.5453;
+        return x - Math.floor(x);
+    }
 
     const items = [];
 
@@ -113,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let imgW = CELL_W * FILL_RATIO;
         let imgH = imgW / RATIO;
 
-        const maxH = CELL_H * FILL_RATIO;
+        const maxH = CELL_H * 0.85;
         if (imgH > maxH) {
             imgH = maxH;
             imgW = imgH * RATIO;
@@ -123,8 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const cellY = cell.r * CELL_H;
         const slackX = CELL_W - imgW;
         const slackY = CELL_H - imgH;
-        const jitterX = (Math.random() - 0.5) * slackX * 0.6;
-        const jitterY = (Math.random() - 0.5) * slackY * 0.6;
+
+        // Jitter determinístico
+        const seedX = i * 1.37 + 0.5;
+        const seedY = i * 2.71 + 1.3;
+
+        const jitterX = (seededRandom(seedX) - 0.5) * slackX;
+        const jitterY = (seededRandom(seedY) - 0.5) * slackY * 0.7;
 
         const baseX = cellX + slackX / 2 + jitterX;
         const baseY = cellY + slackY / 2 + jitterY;
@@ -146,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         item.appendChild(img);
 
-        // Iframe do Vimeo (pré-carregado, invisível)
+        // Wrapper do iframe
         const wrapper = document.createElement("div");
         wrapper.classList.add("video-wrapper");
 
@@ -155,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
-        iframe.setAttribute("loading", "eager");
+        iframe.setAttribute("loading", "lazy");
 
         wrapper.appendChild(iframe);
         item.appendChild(wrapper);
@@ -197,118 +236,258 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         gallery.appendChild(item);
-        items.push({ element: item, baseX, baseY });
+
+        items.push({
+            element: item,
+            baseX: baseX,
+            baseY: baseY,
+            originalLeft: baseX,
+            originalTop: baseY,
+            originalW: imgW,
+            originalH: imgH
+        });
     });
 
-    console.log(`🎬 ${items.length} vídeos em grid ${COLS}×${ROWS}`);
+    console.log(`🎬 ${items.length} vídeos criados | modo: ${isMobile ? "mobile" : "desktop"}`);
 
     // ==========================================
-    // LIMITES DO SCROLL
+    // RELAYOUT (definido conforme o modo)
     // ==========================================
-    const MIN_PAN_X = -(VIRTUAL_W - vw);
-    const MAX_PAN_X = 0;
-    const MIN_PAN_Y = -(VIRTUAL_H - vh);
-    const MAX_PAN_Y = 0;
+    let relayout = null;
 
-    function clamp(val, min, max) {
-        return Math.max(min, Math.min(max, val));
+    // ==========================================
+    // MODO MOBILE — SCROLL VERTICAL
+    // ==========================================
+    if (isMobile) {
+
+        const MOBILE_COLS = 2;
+        const MOBILE_GAP_X = 20;
+        const MOBILE_GAP_Y = 60;
+        const MOBILE_PADDING_TOP = 200;
+
+        const availableW = vw - 40;
+        const MOBILE_IMG_W = (availableW - MOBILE_GAP_X) / MOBILE_COLS;
+        const MOBILE_IMG_H = MOBILE_IMG_W / RATIO;
+
+        const totalRows = Math.ceil(items.length / MOBILE_COLS);
+        const totalContentHeight = MOBILE_PADDING_TOP + totalRows * (MOBILE_IMG_H + MOBILE_GAP_Y) + 200;
+
+        items.forEach((item, i) => {
+            const col = i % MOBILE_COLS;
+            const row = Math.floor(i / MOBILE_COLS);
+
+            const x = 20 + col * (MOBILE_IMG_W + MOBILE_GAP_X);
+            const y = MOBILE_PADDING_TOP + row * (MOBILE_IMG_H + MOBILE_GAP_Y);
+
+            item.element.style.left = x + "px";
+            item.element.style.top = y + "px";
+            item.element.style.width = MOBILE_IMG_W + "px";
+            item.element.style.height = MOBILE_IMG_H + "px";
+
+            item.baseX = x;
+            item.baseY = y;
+
+            gsap.set(item.element, { x: 0, y: 0, clearProps: "transform" });
+        });
+
+        gallery.style.width = vw + "px";
+        gallery.style.height = totalContentHeight + "px";
+        gallery.style.position = "relative";
+
+        const galleryContainer = document.querySelector(".gallery-container");
+        galleryContainer.style.position = "relative";
+        galleryContainer.style.width = "100vw";
+        galleryContainer.style.height = totalContentHeight + "px";
+        galleryContainer.style.overflow = "visible";
+
+        document.documentElement.style.overflowY = "auto";
+        document.documentElement.style.overflowX = "hidden";
+        document.body.style.overflowY = "auto";
+        document.body.style.overflowX = "hidden";
+        document.body.style.height = "auto";
+
+        const refilterMobile = () => {
+            const visibleItems = items.filter(it => !it.element.classList.contains("hidden"));
+            const visibleRows = Math.max(1, Math.ceil(visibleItems.length / MOBILE_COLS));
+            const contentH = MOBILE_PADDING_TOP + visibleRows * (MOBILE_IMG_H + MOBILE_GAP_Y) + 200;
+
+            gallery.style.height = contentH + "px";
+            galleryContainer.style.height = contentH + "px";
+
+            visibleItems.forEach((item, i) => {
+                const col = i % MOBILE_COLS;
+                const row = Math.floor(i / MOBILE_COLS);
+
+                const x = 20 + col * (MOBILE_IMG_W + MOBILE_GAP_X);
+                const y = MOBILE_PADDING_TOP + row * (MOBILE_IMG_H + MOBILE_GAP_Y);
+
+                gsap.to(item.element, {
+                    left: x,
+                    top: y,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            });
+        };
+
+        relayout = refilterMobile;
+
+        console.log(`📱 Mobile: ${items.length} itens em ${MOBILE_COLS} colunas | altura ${totalContentHeight}px`);
     }
 
     // ==========================================
-    // NAVEGAÇÃO
+    // MODO DESKTOP — PAN LIVRE (foco horizontal)
     // ==========================================
-    let targetPanX = 0, targetPanY = 0;
-    let currentPanX = 0, currentPanY = 0;
+    else {
 
-    const WHEEL_SENSITIVITY = 1.0;
-    const TOUCH_SENSITIVITY = 1.5;
+        const MIN_PAN_X = -(VIRTUAL_W - vw);
+        const MAX_PAN_X = 0;
+        const MIN_PAN_Y = -(VIRTUAL_H - vh);
+        const MAX_PAN_Y = 0;
 
-    window.addEventListener("wheel", (e) => {
-        if (e.target.closest(".nav-overlay")) return;
-        e.preventDefault();
+        function clamp(val, min, max) {
+            return Math.max(min, Math.min(max, val));
+        }
 
-        targetPanX = clamp(
-            targetPanX - e.deltaX * WHEEL_SENSITIVITY,
-            MIN_PAN_X, MAX_PAN_X
-        );
-        targetPanY = clamp(
-            targetPanY - e.deltaY * WHEEL_SENSITIVITY,
-            MIN_PAN_Y, MAX_PAN_Y
-        );
+        let targetPanX = 0, targetPanY = 0;
+        let currentPanX = 0, currentPanY = 0;
 
-        if (e.shiftKey) {
+        const WHEEL_SENSITIVITY = 1.0;
+        const TOUCH_SENSITIVITY = 1.5;
+
+        window.addEventListener("wheel", (e) => {
+            if (e.target.closest(".nav-overlay")) return;
+            e.preventDefault();
+
             targetPanX = clamp(
-                targetPanX - e.deltaY * WHEEL_SENSITIVITY,
+                targetPanX - e.deltaX * WHEEL_SENSITIVITY,
                 MIN_PAN_X, MAX_PAN_X
             );
             targetPanY = clamp(
-                targetPanY + e.deltaY * WHEEL_SENSITIVITY,
+                targetPanY - e.deltaY * WHEEL_SENSITIVITY,
                 MIN_PAN_Y, MAX_PAN_Y
             );
-        }
-    }, { passive: false });
 
-    // ==========================================
-    // TOUCH
-    // ==========================================
-    let touchStartX = 0, touchStartY = 0;
-    let touchStartPanX = 0, touchStartPanY = 0;
-    let isTouching = false;
+            if (e.shiftKey) {
+                targetPanX = clamp(
+                    targetPanX - e.deltaY * WHEEL_SENSITIVITY,
+                    MIN_PAN_X, MAX_PAN_X
+                );
+                targetPanY = clamp(
+                    targetPanY + e.deltaY * WHEEL_SENSITIVITY,
+                    MIN_PAN_Y, MAX_PAN_Y
+                );
+            }
+        }, { passive: false });
 
-    window.addEventListener("touchstart", (e) => {
-        if (e.target.closest(".logo-container, .nav-overlay, .filters, .site-footer")) return;
-        if (e.target.closest(".video-wrapper")) return;
+        let touchStartX = 0, touchStartY = 0;
+        let touchStartPanX = 0, touchStartPanY = 0;
+        let isTouching = false;
 
-        const t = e.touches[0];
-        isTouching = true;
-        touchStartX = t.clientX;
-        touchStartY = t.clientY;
-        touchStartPanX = targetPanX;
-        touchStartPanY = targetPanY;
-    }, { passive: true });
+        window.addEventListener("touchstart", (e) => {
+            if (e.target.closest(".logo-container, .nav-overlay, .filters, .site-footer")) return;
+            if (e.target.closest(".video-wrapper")) return;
 
-    window.addEventListener("touchmove", (e) => {
-        if (!isTouching) return;
-        e.preventDefault();
+            const t = e.touches[0];
+            isTouching = true;
+            touchStartX = t.clientX;
+            touchStartY = t.clientY;
+            touchStartPanX = targetPanX;
+            touchStartPanY = targetPanY;
+        }, { passive: true });
 
-        const t = e.touches[0];
-        const dx = t.clientX - touchStartX;
-        const dy = t.clientY - touchStartY;
+        window.addEventListener("touchmove", (e) => {
+            if (!isTouching) return;
+            e.preventDefault();
 
-        targetPanX = clamp(
-            touchStartPanX + dx * TOUCH_SENSITIVITY,
-            MIN_PAN_X, MAX_PAN_X
-        );
-        targetPanY = clamp(
-            touchStartPanY + dy * TOUCH_SENSITIVITY,
-            MIN_PAN_Y, MAX_PAN_Y
-        );
-    }, { passive: false });
+            const t = e.touches[0];
+            const dx = t.clientX - touchStartX;
+            const dy = t.clientY - touchStartY;
 
-    window.addEventListener("touchend", () => {
-        isTouching = false;
-    });
+            targetPanX = clamp(touchStartPanX + dx * TOUCH_SENSITIVITY, MIN_PAN_X, MAX_PAN_X);
+            targetPanY = clamp(touchStartPanY + dy * TOUCH_SENSITIVITY, MIN_PAN_Y, MAX_PAN_Y);
+        }, { passive: false });
 
-    // ==========================================
-    // LOOP DE ANIMAÇÃO — SEM WRAP
-    // ==========================================
-    function loop() {
-        const smooth = isMobile ? 0.12 : 0.08;
-
-        currentPanX += (targetPanX - currentPanX) * smooth;
-        currentPanY += (targetPanY - currentPanY) * smooth;
-
-        items.forEach((item) => {
-            gsap.set(item.element, {
-                x: currentPanX,
-                y: currentPanY,
-                force3D: true
-            });
+        window.addEventListener("touchend", () => {
+            isTouching = false;
         });
 
-        requestAnimationFrame(loop);
+        function loop() {
+            const smooth = 0.08;
+            currentPanX += (targetPanX - currentPanX) * smooth;
+            currentPanY += (targetPanY - currentPanY) * smooth;
+
+            items.forEach((item) => {
+                gsap.set(item.element, {
+                    x: currentPanX,
+                    y: currentPanY,
+                    force3D: true
+                });
+            });
+
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        // ======================================
+        // RE-CENTRAR ITENS FILTRADOS
+        // ======================================
+        function centerFilteredItemsDesktop() {
+            const visible = items.filter(it => !it.element.classList.contains("hidden"));
+
+            // "all" → volta às posições originais
+            if (visible.length === items.length) {
+                items.forEach(it => {
+                    gsap.to(it.element, {
+                        left: it.originalLeft,
+                        top: it.originalTop,
+                        duration: 0.8,
+                        ease: "power3.inOut"
+                    });
+                });
+                return;
+            }
+
+            const n = visible.length;
+            const w = visible[0].originalW;   // tamanho original — não é alterado
+            const h = visible[0].originalH;
+
+            const gapX = w * 0.16;
+            const gapY = h * 0.50;
+
+            const cols = Math.ceil(Math.sqrt(n));
+            const rows = Math.ceil(n / cols);
+
+            const blockW = cols * w + (cols - 1) * gapX;
+            const blockH = rows * h + (rows - 1) * gapY;
+
+            // bloco centrado no canvas virtual
+            const startX = (VIRTUAL_W - blockW) / 2;
+            const startY = (VIRTUAL_H - blockH) / 2;
+
+            visible.forEach((it, i) => {
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+
+                // centrar também a última linha, se estiver incompleta
+                const countInRow = Math.min(cols, n - row * cols);
+                const rowW = countInRow * w + (countInRow - 1) * gapX;
+
+                gsap.to(it.element, {
+                    left: startX + (blockW - rowW) / 2 + col * (w + gapX),
+                    top: startY + row * (h + gapY),
+                    duration: 0.8,
+                    ease: "power3.inOut"
+                });
+            });
+
+            // leva a câmara para o centro do canvas (pan suave via loop)
+            targetPanX = clamp(vw / 2 - VIRTUAL_W / 2, MIN_PAN_X, MAX_PAN_X);
+            targetPanY = clamp(vh / 2 - VIRTUAL_H / 2, MIN_PAN_Y, MAX_PAN_Y);
+        }
+
+        relayout = centerFilteredItemsDesktop;
     }
-    loop();
 
     // ==========================================
     // FILTROS
@@ -320,6 +499,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const filter = btn.dataset.filter;
 
+            // Atualiza o texto de fundo
+            updateBgText(filter);
+
+            // Filtra os itens
             items.forEach((item) => {
                 const director = item.element.dataset.director;
                 if (filter === "all" || director === filter) {
@@ -328,7 +511,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.element.classList.add("hidden");
                 }
             });
+
+            // Reorganiza / recentra os itens visíveis
+            if (typeof relayout === "function") relayout();
+
+            // ======================================
+            // CALLOUT — "call a friend: <nome>"
+            // ======================================
+            if (filterCallout) {
+                gsap.killTweensOf(filterCallout);
+
+                if (filter === "all") {
+                    gsap.to(filterCallout, {
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: "power2.in",
+                        onComplete: () => { filterCallout.textContent = ""; }
+                    });
+                } else {
+                    filterCallout.textContent = `call a friend: ${directorNames[filter] || ""}`;
+                    gsap.fromTo(filterCallout,
+                        { opacity: 0 },
+                        {
+                            opacity: 1,
+                            duration: 0.7,
+                            delay: 0.3,
+                            ease: "power2.out"
+                        }
+                    );
+                }
+            }
         });
     });
+
+    // Estado inicial do texto de fundo
+    updateBgText("all");
 
 });

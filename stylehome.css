@@ -308,3 +308,65 @@ html, body {
 .footer-instagram svg {
     display: block;
 }
+
+/* ==========================================================================
+   MOBILE — HOME
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* Esconder as frases grandes do fundo */
+    .phrase-1,
+    .phrase-2 {
+        display: none !important;
+    }
+
+    /* Manter apenas a frase pequena em baixo, mais visível */
+    .phrase-3 {
+        bottom: 8vh !important;
+        font-size: 0.9rem !important;
+        letter-spacing: 0.15em !important;
+        opacity: 0.7 !important;
+    }
+
+    /* Ajustar o túnel 3D para mobile — cartões mais pequenos */
+    .video-card {
+        width: 280px !important;
+        height: 157.5px !important;
+        margin-left: -140px !important;
+        margin-top: -78.75px !important;
+    }
+
+    /* Logo mais pequeno */
+    .logo-container img {
+        height: 42px;
+    }
+
+    /* Nav overlay mais compacto */
+    .nav-content a {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .nav-close {
+        top: 20px;
+        right: 20px;
+    }
+
+    .logo-container {
+        top: 20px;
+    }
+
+    /* Footer em coluna */
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-desc,
+    .footer-instagram {
+        font-size: 11px;
+    }
+}

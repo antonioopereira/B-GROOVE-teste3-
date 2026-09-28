@@ -28,16 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // TÚNEL 3D — CONFIGURAÇÕES
     // ==========================================
-    const config = {
-        totalImages: 24,          // 👈 agora são os 24 vídeos
-        gap: 800,
-        speed: 1.5,
-        lerp: 0.08,
-        exitPoint: 600,
-        curveFactor: 0.18,
-        lazyLoadZ: -3500          // 👈 só carrega iframe quando z > este valor
-    };
+       const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+    const config = {
+        totalImages: isMobile ? 10 : 15,
+        gap: isMobile ? 500 : 800,
+        speed: isMobile ? 1.2 : 1.5,
+        lerp: 0.08,
+        exitPoint: isMobile ? 400 : 600,
+        curveFactor: 0.18
+    };
     // ==========================================
     // DADOS + SHUFFLE (ordem aleatória a cada refresh)
     // ==========================================

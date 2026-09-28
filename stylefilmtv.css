@@ -557,3 +557,90 @@ html, body {
         margin-bottom: 24px;
     }
 }
+
+@media (max-width: 768px) {
+    :root {
+        --poster-w: 140px;
+        --poster-h: 210px;
+    }
+
+    /* Título no topo */
+    .page-header {
+        top: 80px;
+        left: 25px;
+        right: 25px;
+        max-width: none;
+    }
+
+    .page-title {
+        font-size: 2.2rem;
+    }
+
+    .page-subtitle {
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    /* Logo */
+    .logo-container {
+        top: 20px;
+    }
+
+    .logo-container img {
+        height: 42px;
+    }
+
+    /* Nav */
+    .nav-close {
+        top: 20px;
+        right: 20px;
+    }
+
+    .nav-content a {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    /* Modal */
+    .modal {
+        padding: 15px;
+    }
+
+    .modal-content {
+        padding: 50px 25px 35px;
+        max-height: 85vh;
+    }
+
+    .modal-title {
+        font-size: 2rem;
+    }
+
+    .modal-meta {
+        font-size: 10px;
+        margin-bottom: 20px;
+    }
+
+    .modal-synopsis {
+        font-size: 13px;
+        margin-bottom: 20px;
+        line-height: 1.65;
+    }
+
+    .modal-info-value {
+        font-size: 13px;
+    }
+
+    /* Footer */
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-desc,
+    .footer-instagram {
+        font-size: 11px;
+    }
+}
