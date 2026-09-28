@@ -1,5 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -109,41 +109,6 @@ html, body {
     transform: rotate(90deg);
 }
 
-/* ==========================================================================
-   2. TEXTO DE FUNDO — "call a friend."
-   ========================================================================== */
-.bg-text-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 3vh;
-}
-
-.bg-word {
-    font-family: 'Harmattan', sans-serif;
-    font-weight: 400;
-    font-size: clamp(6rem, 18vw, 24rem);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
-    color: #FDF0D5;
-    opacity: 0.06;
-    white-space: nowrap;
-    pointer-events: none;
-    text-align: center;
-    transform: translateY(35%);
-}
-
-/* ==========================================================================
-   3. FILTROS
-   ========================================================================== */
 .filters {
     position: fixed;
     top: 50%;
@@ -181,7 +146,7 @@ html, body {
 }
 
 /* ==========================================================================
-   4. GALERIA — IMAGENS SEM CORTES
+   4. GALERIA
    ========================================================================== */
 .gallery-container {
     position: fixed;
@@ -199,8 +164,12 @@ html, body {
     left: 0;
 }
 
+/* ==========================================================================
+   5. ITEM DA GALERIA — FOTOGRAFIA
+   ========================================================================== */
 .gallery-item {
     position: absolute;
+    overflow: visible;
     will-change: transform, opacity;
     transition: opacity 0.4s ease, transform 0.4s ease;
     cursor: pointer;
@@ -214,20 +183,14 @@ html, body {
 }
 
 .gallery-item img {
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
-    pointer-events: none;
     object-fit: contain;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.gallery-item:hover img {
-    transform: scale(1.05);
 }
 
 /* ==========================================================================
-   5. FOOTER
+   6. FOOTER
    ========================================================================== */
 .site-footer {
     position: fixed;
@@ -282,7 +245,29 @@ html, body {
 }
 
 /* ==========================================================================
-   6. RESPONSIVO — MOBILE
+   7. CALLOUT — "Call a Friend: <nome>"
+   ========================================================================== */
+.filter-callout {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: #FDF0D5;
+    font-family: 'Harmattan', sans-serif;
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: 0;
+    white-space: nowrap;
+    text-align: center;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ==========================================================================
+   8. RESPONSIVO — MOBILE
    ========================================================================== */
 @media (max-width: 768px) {
 
@@ -314,75 +299,14 @@ html, body {
         flex-wrap: wrap;
         gap: 8px;
         padding: 0 15px;
-    }
-
-    .filter-btn {
-        font-size: 13px;
-        letter-spacing: 0.5px;
-        padding: 6px 12px;
-        border: 1px solid rgba(253, 240, 213, 0.15);
-        border-radius: 20px;
-        opacity: 0.5;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-        opacity: 1;
-        transform: none;
-        background: rgba(253, 240, 213, 0.08);
-        border-color: rgba(253, 240, 213, 0.4);
-    }
-
-    .site-footer {
-        bottom: 15px;
-        flex-direction: column;
-        gap: 8px;
-        padding: 0 20px;
-        text-align: center;
-    }
-
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
-    }
-}
-
-@media (max-width: 768px) {
-    /* Logo */
-    .logo-container {
-        top: 20px;
-    }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    /* Nav */
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    /* Filtros no topo */
-    .filters {
-        top: 80px;
-        left: 0;
-        right: 0;
-        transform: none;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 0 15px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        padding-bottom: 20px;
+        z-index: 100;
     }
 
     .filter-btn {
         font-size: 12px;
+        letter-spacing: 0.5px;
         padding: 6px 12px;
         border: 1px solid rgba(253, 240, 213, 0.15);
         border-radius: 20px;
@@ -396,23 +320,45 @@ html, body {
         border-color: rgba(253, 240, 213, 0.4);
     }
 
-    /* Texto de fundo */
-    .bg-word {
-        font-size: clamp(4rem, 20vw, 10rem);
-        opacity: 0.04;
+    html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
     }
 
-    /* Footer */
+    .gallery-container {
+        position: relative !important;
+        width: 100vw !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .gallery {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+    }
+
+    .gallery-item {
+        will-change: auto;
+    }
+
     .site-footer {
-        bottom: 15px;
+        position: relative;
+        bottom: auto;
+        margin-top: 60px;
         flex-direction: column;
-        gap: 8px;
-        padding: 0 20px;
+        gap: 10px;
+        padding: 30px 20px;
         text-align: center;
     }
 
     .footer-desc,
     .footer-instagram {
         font-size: 11px;
+    }
+
+    .filter-callout {
+        font-size: 32px;
     }
 }

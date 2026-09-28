@@ -20,9 +20,9 @@
 
         <nav class="nav-content">
             <a href="directors.html">Directors</a>
-            <a href="photographers.html">Photographers</a>
+            <a href="photographers.html" class="active">Photographers</a>
             <a href="filmtv.html">Film & TV</a>
-            <a href="international.html">International</a>
+            <a href="Production Services.html">Production Services</a>
             <a href="https://spritz.com.br/" target="_blank" rel="noopener">Spritz</a>
             <a href="us.html">Us.</a>
             <a href="contact.html">Contact</a>
@@ -34,15 +34,10 @@
         <img src="Asset 1.svg" alt="B Groove Logo">
     </div>
 
-    <!-- Texto de fundo -->
-    <div class="bg-text-wrapper">
-        <div class="bg-word">call a friend.</div>
-    </div>
-
     <!-- Filtros -->
     <div class="filters">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="thais-vandanezi">Thaís Vandanezi</button>
+        <button class="filter-btn" data-filter="thais-vandanezi">Thais Vandanezi</button>
     </div>
 
     <!-- Galeria -->
@@ -62,6 +57,9 @@
             <span>@bgroove</span>
         </a>
     </footer>
+
+    <!-- Callout "Call a Friend: <nome>" -->
+    <div id="filter-callout" class="filter-callout"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="scriptphotographers.js"></script>
