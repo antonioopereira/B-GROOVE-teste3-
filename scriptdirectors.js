@@ -41,14 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "ines-monteiro": "Inês Monteiro"
     };
 
-    // ==========================================
-    // CALLOUT — "call a friend: <nome>"
-    // ==========================================
     const filterCallout = document.getElementById("filter-callout");
 
     function updateBgText(filter) {
         if (!bgDirectorName) return;
-
         if (filter === "all") {
             bgDirectorName.textContent = "everyone";
         } else {
@@ -95,35 +91,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterButtons = document.querySelectorAll(".filter-btn");
 
     // ==========================================
-    // ÁREA VIRTUAL (desktop) — 4 linhas, spread horizontal
+    // ÁREA VIRTUAL
+    // 2 fileiras, itens com 3 tamanhos discretos
     // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const VIRTUAL_W = vw * 5.5;
     const VIRTUAL_H = vh * 1.8;
 
-    gallery.style.width = VIRTUAL_W + "px";
-    gallery.style.height = VIRTUAL_H + "px";
-
-    // ==========================================
-    // GRELHA (desktop) — 8 colunas × 4 linhas
-    // ==========================================
-    const COLS = 8;
-    const ROWS = 4;
-    const CELL_W = VIRTUAL_W / COLS;
-    const CELL_H = VIRTUAL_H / ROWS;
-
-    const FILL_RATIO = 0.62;
+    const ROWS = 2;
+    const ROW_HEIGHT = VIRTUAL_H / ROWS;
+    const BASE_FILL = 0.75;
+    const GAP_X = 90;
     const RATIO = 16 / 9;
 
-    // Células em ordem sequencial (sem shuffle)
-    const cells = [];
-    for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            cells.push({ r, c });
-        }
-    }
+    // ---- 3 tamanhos com bastante contraste ----
+    const TIERS = [0.32, 0.52, 0.72];
+    const TIER_PATTERN = [2, 0, 1, 0, 2, 1, 0, 2, 1, 0];
+
+    // Cursor X por fileira
+    const rowCursors = new Array(ROWS).fill(vw * 0.35);
+    let maxX = 0;
 
     // ==========================================
     // Pseudo-random determinístico
@@ -139,41 +127,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // CRIAÇÃO DOS ITENS
     // ==========================================
     videoData.forEach((data, i) => {
-        const cell = cells[i % cells.length];
+        const row = i % ROWS;
         const item = document.createElement("div");
         item.classList.add("gallery-item");
         item.dataset.director = data.director;
 
-        let imgW = CELL_W * FILL_RATIO;
-        let imgH = imgW / RATIO;
+        const tierIndex = TIER_PATTERN[i % TIER_PATTERN.length];
+        const tier = TIERS[tierIndex];
 
-        const maxH = CELL_H * 0.85;
-        if (imgH > maxH) {
-            imgH = maxH;
-            imgW = imgH * RATIO;
-        }
+        let imgH = ROW_HEIGHT * BASE_FILL * tier;
+        let imgW = imgH * RATIO;
 
-        const cellX = cell.c * CELL_W;
-        const cellY = cell.r * CELL_H;
-        const slackX = CELL_W - imgW;
-        const slackY = CELL_H - imgH;
-
-        // Jitter determinístico
-        const seedX = i * 1.37 + 0.5;
+        const jitterYMax = Math.max(0, ROW_HEIGHT - imgH);
         const seedY = i * 2.71 + 1.3;
+        const jitterY = (seededRandom(seedY) - 0.5) * jitterYMax * 0.6;
 
-        const jitterX = (seededRandom(seedX) - 0.5) * slackX;
-        const jitterY = (seededRandom(seedY) - 0.5) * slackY * 0.7;
-
-        const baseX = cellX + slackX / 2 + jitterX;
-        const baseY = cellY + slackY / 2 + jitterY;
+        const baseX = rowCursors[row];
+        const baseY = row * ROW_HEIGHT + (ROW_HEIGHT - imgH) / 2 + jitterY;
 
         item.style.left = baseX + "px";
         item.style.top = baseY + "px";
         item.style.width = imgW + "px";
         item.style.height = imgH + "px";
 
-        // Miniatura
         const thumbnailUrl = data.Thumb || `https://vumbnail.com/${data.id}.jpg`;
         const img = document.createElement("img");
         img.src = thumbnailUrl;
@@ -185,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         item.appendChild(img);
 
-        // Wrapper do iframe
         const wrapper = document.createElement("div");
         wrapper.classList.add("video-wrapper");
 
@@ -199,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.appendChild(iframe);
         item.appendChild(wrapper);
 
-        // Título
         const titleEl = document.createElement("div");
         titleEl.classList.add("video-title");
         titleEl.innerHTML = `
@@ -209,33 +183,20 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         item.appendChild(titleEl);
 
-        // Hover → fade in + play
         item.addEventListener("mouseenter", () => {
-            gsap.to(wrapper, {
-                opacity: 1,
-                duration: 0.4,
-                ease: "power2.out"
-            });
-            iframe.contentWindow.postMessage(
-                JSON.stringify({ method: "play" }),
-                "*"
-            );
+            gsap.to(wrapper, { opacity: 1, duration: 0.4, ease: "power2.out" });
+            iframe.contentWindow.postMessage(JSON.stringify({ method: "play" }), "*");
         });
 
-        // Mouse leave → pause + fade out
         item.addEventListener("mouseleave", () => {
-            gsap.to(wrapper, {
-                opacity: 0,
-                duration: 0.3,
-                ease: "power2.in"
-            });
-            iframe.contentWindow.postMessage(
-                JSON.stringify({ method: "pause" }),
-                "*"
-            );
+            gsap.to(wrapper, { opacity: 0, duration: 0.3, ease: "power2.in" });
+            iframe.contentWindow.postMessage(JSON.stringify({ method: "pause" }), "*");
         });
 
         gallery.appendChild(item);
+
+        rowCursors[row] += imgW + GAP_X;
+        maxX = Math.max(maxX, baseX + imgW);
 
         items.push({
             element: item,
@@ -248,10 +209,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    console.log(`🎬 ${items.length} vídeos criados | modo: ${isMobile ? "mobile" : "desktop"}`);
+    const VIRTUAL_W = maxX + vw * 0.35;
+
+    gallery.style.width = VIRTUAL_W + "px";
+    gallery.style.height = VIRTUAL_H + "px";
+
+    console.log(`🎬 ${items.length} vídeos | 2 fileiras | ${isMobile ? "mobile" : "desktop"}`);
 
     // ==========================================
-    // RELAYOUT (definido conforme o modo)
+    // RELAYOUT
     // ==========================================
     let relayout = null;
 
@@ -331,12 +297,10 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         relayout = refilterMobile;
-
-        console.log(`📱 Mobile: ${items.length} itens em ${MOBILE_COLS} colunas | altura ${totalContentHeight}px`);
     }
 
     // ==========================================
-    // MODO DESKTOP — PAN LIVRE (foco horizontal)
+    // MODO DESKTOP — PAN LIVRE
     // ==========================================
     else {
 
@@ -359,24 +323,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.target.closest(".nav-overlay")) return;
             e.preventDefault();
 
-            targetPanX = clamp(
-                targetPanX - e.deltaX * WHEEL_SENSITIVITY,
-                MIN_PAN_X, MAX_PAN_X
-            );
-            targetPanY = clamp(
-                targetPanY - e.deltaY * WHEEL_SENSITIVITY,
-                MIN_PAN_Y, MAX_PAN_Y
-            );
+            targetPanX = clamp(targetPanX - e.deltaX * WHEEL_SENSITIVITY, MIN_PAN_X, MAX_PAN_X);
+            targetPanY = clamp(targetPanY - e.deltaY * WHEEL_SENSITIVITY, MIN_PAN_Y, MAX_PAN_Y);
 
             if (e.shiftKey) {
-                targetPanX = clamp(
-                    targetPanX - e.deltaY * WHEEL_SENSITIVITY,
-                    MIN_PAN_X, MAX_PAN_X
-                );
-                targetPanY = clamp(
-                    targetPanY + e.deltaY * WHEEL_SENSITIVITY,
-                    MIN_PAN_Y, MAX_PAN_Y
-                );
+                targetPanX = clamp(targetPanX - e.deltaY * WHEEL_SENSITIVITY, MIN_PAN_X, MAX_PAN_X);
+                targetPanY = clamp(targetPanY + e.deltaY * WHEEL_SENSITIVITY, MIN_PAN_Y, MAX_PAN_Y);
             }
         }, { passive: false });
 
@@ -430,7 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loop();
 
         // ======================================
-        // RE-CENTRAR ITENS FILTRADOS
+        // RE-LAYOUT DOS ITENS FILTRADOS — 2 fileiras
         // ======================================
         function centerFilteredItemsDesktop() {
             const visible = items.filter(it => !it.element.classList.contains("hidden"));
@@ -449,39 +401,58 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const n = visible.length;
-            const w = visible[0].originalW;   // tamanho original — não é alterado
-            const h = visible[0].originalH;
+            const GAP = 90;
 
-            const gapX = w * 0.16;
-            const gapY = h * 0.50;
+            // --- dividir em 2 fileiras o mais equilibradas possível ---
+            const itemsPerRow = Math.ceil(n / ROWS);
+            const rows = [];
+            for (let r = 0; r < ROWS; r++) {
+                const start = r * itemsPerRow;
+                const end = Math.min(start + itemsPerRow, n);
+                if (start < n) rows.push(visible.slice(start, end));
+            }
 
-            const cols = Math.ceil(Math.sqrt(n));
-            const rows = Math.ceil(n / cols);
+            // --- largura de cada fileira ---
+            const rowWidths = rows.map(row => {
+                let w = 0;
+                row.forEach((it, i) => {
+                    w += it.originalW;
+                    if (i < row.length - 1) w += GAP;
+                });
+                return w;
+            });
 
-            const blockW = cols * w + (cols - 1) * gapX;
-            const blockH = rows * h + (rows - 1) * gapY;
+            const maxRowWidth = Math.max(...rowWidths);
 
-            // bloco centrado no canvas virtual
-            const startX = (VIRTUAL_W - blockW) / 2;
+            // --- altura do bloco: usa ROW_HEIGHT (mesma das fileiras originais) ---
+            const blockH = rows.length * ROW_HEIGHT;
+
+            // --- centrar bloco no canvas virtual ---
+            const startX = (VIRTUAL_W - maxRowWidth) / 2;
             const startY = (VIRTUAL_H - blockH) / 2;
 
-            visible.forEach((it, i) => {
-                const row = Math.floor(i / cols);
-                const col = i % cols;
+            // --- colocar cada item ---
+            rows.forEach((row, r) => {
+                const rowWidth = rowWidths[r];
+                const rowStartX = startX + (maxRowWidth - rowWidth) / 2;
+                const rowY = startY + r * ROW_HEIGHT;
 
-                // centrar também a última linha, se estiver incompleta
-                const countInRow = Math.min(cols, n - row * cols);
-                const rowW = countInRow * w + (countInRow - 1) * gapX;
+                let cursorX = rowStartX;
+                row.forEach(it => {
+                    const itemY = rowY + (ROW_HEIGHT - it.originalH) / 2;
 
-                gsap.to(it.element, {
-                    left: startX + (blockW - rowW) / 2 + col * (w + gapX),
-                    top: startY + row * (h + gapY),
-                    duration: 0.8,
-                    ease: "power3.inOut"
+                    gsap.to(it.element, {
+                        left: cursorX,
+                        top: itemY,
+                        duration: 0.8,
+                        ease: "power3.inOut"
+                    });
+
+                    cursorX += it.originalW + GAP;
                 });
             });
 
-            // leva a câmara para o centro do canvas (pan suave via loop)
+            // --- câmara para o centro do canvas virtual ---
             targetPanX = clamp(vw / 2 - VIRTUAL_W / 2, MIN_PAN_X, MAX_PAN_X);
             targetPanY = clamp(vh / 2 - VIRTUAL_H / 2, MIN_PAN_Y, MAX_PAN_Y);
         }
@@ -499,10 +470,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const filter = btn.dataset.filter;
 
-            // Atualiza o texto de fundo
             updateBgText(filter);
 
-            // Filtra os itens
             items.forEach((item) => {
                 const director = item.element.dataset.director;
                 if (filter === "all" || director === filter) {
@@ -512,12 +481,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Reorganiza / recentra os itens visíveis
             if (typeof relayout === "function") relayout();
 
-            // ======================================
-            // CALLOUT — "call a friend: <nome>"
-            // ======================================
             if (filterCallout) {
                 gsap.killTweensOf(filterCallout);
 
@@ -529,22 +494,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         onComplete: () => { filterCallout.textContent = ""; }
                     });
                 } else {
-                    filterCallout.textContent = `call a friend: ${directorNames[filter] || ""}`;
+                    filterCallout.textContent = `Call a Friend: ${directorNames[filter] || ""}`;
                     gsap.fromTo(filterCallout,
                         { opacity: 0 },
-                        {
-                            opacity: 1,
-                            duration: 0.7,
-                            delay: 0.3,
-                            ease: "power2.out"
-                        }
+                        { opacity: 1, duration: 0.7, delay: 0.3, ease: "power2.out" }
                     );
                 }
             }
         });
     });
 
-    // Estado inicial do texto de fundo
     updateBgText("all");
 
 });
