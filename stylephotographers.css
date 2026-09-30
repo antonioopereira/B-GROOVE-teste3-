@@ -245,18 +245,18 @@ html, body {
 }
 
 /* ==========================================================================
-   7. CALLOUT — "Call a Friend: <nome>"
+   7. CALLOUT — "Call a Friend" no fundo
    ========================================================================== */
 .filter-callout {
     position: fixed;
-    top: 50%;
+    bottom: 80px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 
     color: #FDF0D5;
     font-family: 'Harmattan', sans-serif;
     font-size: 56px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0;
     white-space: nowrap;
     text-align: center;
@@ -267,7 +267,69 @@ html, body {
 }
 
 /* ==========================================================================
-   8. RESPONSIVO — MOBILE
+   8. LIGHTBOX — clique na imagem
+   ========================================================================== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 40px;
+    animation: lightboxFade 0.3s ease;
+    cursor: zoom-out;
+}
+
+.lightbox.is-closing {
+    animation: lightboxFadeOut 0.2s ease forwards;
+}
+
+.lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    cursor: default;
+}
+
+/* ---- Botão de fechar (igual ao da nav bar) ---- */
+.lightbox-close {
+    position: fixed;
+    top: 40px;
+    right: 50px;
+    background: none;
+    border: none;
+    color: #FDF0D5;
+    cursor: pointer;
+    padding: 8px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10001;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+.lightbox-close svg {
+    display: block;
+}
+
+@keyframes lightboxFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes lightboxFadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* ==========================================================================
+   9. RESPONSIVO — MOBILE
    ========================================================================== */
 @media (max-width: 768px) {
 
@@ -360,5 +422,15 @@ html, body {
 
     .filter-callout {
         font-size: 32px;
+        bottom: 60px;
+    }
+
+    .lightbox {
+        padding: 20px;
+    }
+
+    .lightbox-close {
+        top: 20px;
+        right: 20px;
     }
 }

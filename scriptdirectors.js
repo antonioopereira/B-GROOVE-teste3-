@@ -31,32 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // TEXTO DE FUNDO — nome do diretor
+    // CALLOUT
     // ==========================================
-    const bgDirectorName = document.getElementById("bg-director-name");
-
-    const directorNames = {
-        "andre-chitas": "André Chitas",
-        "goncalo-xz": "Gonçalo Xz",
-        "ines-monteiro": "Inês Monteiro"
-    };
-
     const filterCallout = document.getElementById("filter-callout");
-
-    function updateBgText(filter) {
-        if (!bgDirectorName) return;
-        if (filter === "all") {
-            bgDirectorName.textContent = "everyone";
-        } else {
-            bgDirectorName.textContent = directorNames[filter] || "";
-        }
-    }
 
     // ==========================================
     // DADOS DOS VÍDEOS
     // ==========================================
     const videoData = [
-        // ========== ANDRÉ CHITAS ==========
         { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
         { id: "1228562721", brand: "BIS", title: "Projeto 02", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
         { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
@@ -70,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "951206473",  brand: "Marca K", title: "Projeto 11", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
         { id: "1075350120", brand: "Marca L", title: "Projeto 12", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
 
-        // ========== GONÇALO XZ ==========
         { id: "1220816532", brand: "Marca M", title: "Projeto 13", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
         { id: "1220821289", brand: "Marca N", title: "Projeto 14", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
         { id: "1220828316", brand: "Marca O", title: "Projeto 15", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
@@ -78,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1220835706", brand: "Marca Q", title: "Projeto 17", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
         { id: "1220831743", brand: "Marca R", title: "Projeto 18", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
 
-        // ========== INÊS MONTEIRO ==========
         { id: "1228567548", brand: "Marca S", title: "Projeto 19", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
         { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
         { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
@@ -92,30 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // ÁREA VIRTUAL
-    // 2 fileiras, itens com 3 tamanhos discretos
+    // 2 fileiras mais próximas (menos espaço vertical)
     // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const VIRTUAL_H = vh * 1.8;
-
+    const VIRTUAL_H = vh * 1.15;   // ← era 1.8, reduz a distância entre fileiras
     const ROWS = 2;
     const ROW_HEIGHT = VIRTUAL_H / ROWS;
-    const BASE_FILL = 0.75;
+    const BASE_FILL = 0.95;
     const GAP_X = 90;
     const RATIO = 16 / 9;
 
-    // ---- 3 tamanhos com bastante contraste ----
-    const TIERS = [0.32, 0.52, 0.72];
+    // ---- 3 tamanhos mais equilibrados ----
+    // média "grande": pequenos crescem, grandes diminuem
+    const TIERS = [0.45, 0.58, 0.72];      // ← era [0.32, 0.52, 0.72]
     const TIER_PATTERN = [2, 0, 1, 0, 2, 1, 0, 2, 1, 0];
 
-    // Cursor X por fileira
     const rowCursors = new Array(ROWS).fill(vw * 0.35);
     let maxX = 0;
 
-    // ==========================================
-    // Pseudo-random determinístico
-    // ==========================================
     function seededRandom(seed) {
         const x = Math.sin(seed * 12.9898) * 43758.5453;
         return x - Math.floor(x);
@@ -200,8 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         items.push({
             element: item,
-            baseX: baseX,
-            baseY: baseY,
+            baseX, baseY,
             originalLeft: baseX,
             originalTop: baseY,
             originalW: imgW,
@@ -214,15 +189,13 @@ document.addEventListener("DOMContentLoaded", () => {
     gallery.style.width = VIRTUAL_W + "px";
     gallery.style.height = VIRTUAL_H + "px";
 
-    console.log(`🎬 ${items.length} vídeos | 2 fileiras | ${isMobile ? "mobile" : "desktop"}`);
-
     // ==========================================
     // RELAYOUT
     // ==========================================
     let relayout = null;
 
     // ==========================================
-    // MODO MOBILE — SCROLL VERTICAL
+    // MODO MOBILE
     // ==========================================
     if (isMobile) {
 
@@ -300,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // MODO DESKTOP — PAN LIVRE
+    // MODO DESKTOP
     // ==========================================
     else {
 
@@ -370,11 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentPanY += (targetPanY - currentPanY) * smooth;
 
             items.forEach((item) => {
-                gsap.set(item.element, {
-                    x: currentPanX,
-                    y: currentPanY,
-                    force3D: true
-                });
+                gsap.set(item.element, { x: currentPanX, y: currentPanY, force3D: true });
             });
 
             requestAnimationFrame(loop);
@@ -382,12 +351,11 @@ document.addEventListener("DOMContentLoaded", () => {
         loop();
 
         // ======================================
-        // RE-LAYOUT DOS ITENS FILTRADOS — 2 fileiras
+        // RE-CENTRAR ITENS FILTRADOS — 2 fileiras
         // ======================================
         function centerFilteredItemsDesktop() {
             const visible = items.filter(it => !it.element.classList.contains("hidden"));
 
-            // "all" → volta às posições originais
             if (visible.length === items.length) {
                 items.forEach(it => {
                     gsap.to(it.element, {
@@ -403,7 +371,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const n = visible.length;
             const GAP = 90;
 
-            // --- dividir em 2 fileiras o mais equilibradas possível ---
             const itemsPerRow = Math.ceil(n / ROWS);
             const rows = [];
             for (let r = 0; r < ROWS; r++) {
@@ -412,7 +379,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (start < n) rows.push(visible.slice(start, end));
             }
 
-            // --- largura de cada fileira ---
             const rowWidths = rows.map(row => {
                 let w = 0;
                 row.forEach((it, i) => {
@@ -423,15 +389,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const maxRowWidth = Math.max(...rowWidths);
-
-            // --- altura do bloco: usa ROW_HEIGHT (mesma das fileiras originais) ---
             const blockH = rows.length * ROW_HEIGHT;
 
-            // --- centrar bloco no canvas virtual ---
             const startX = (VIRTUAL_W - maxRowWidth) / 2;
             const startY = (VIRTUAL_H - blockH) / 2;
 
-            // --- colocar cada item ---
             rows.forEach((row, r) => {
                 const rowWidth = rowWidths[r];
                 const rowStartX = startX + (maxRowWidth - rowWidth) / 2;
@@ -452,7 +414,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
-            // --- câmara para o centro do canvas virtual ---
             targetPanX = clamp(vw / 2 - VIRTUAL_W / 2, MIN_PAN_X, MAX_PAN_X);
             targetPanY = clamp(vh / 2 - VIRTUAL_H / 2, MIN_PAN_Y, MAX_PAN_Y);
         }
@@ -469,8 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add("active");
 
             const filter = btn.dataset.filter;
-
-            updateBgText(filter);
 
             items.forEach((item) => {
                 const director = item.element.dataset.director;
@@ -494,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         onComplete: () => { filterCallout.textContent = ""; }
                     });
                 } else {
-                    filterCallout.textContent = `Call a Friend: ${directorNames[filter] || ""}`;
+                    filterCallout.textContent = "Call a Friend.";
                     gsap.fromTo(filterCallout,
                         { opacity: 0 },
                         { opacity: 1, duration: 0.7, delay: 0.3, ease: "power2.out" }
@@ -503,7 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
-    updateBgText("all");
 
 });
