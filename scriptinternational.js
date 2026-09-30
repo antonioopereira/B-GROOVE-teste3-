@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
-    logoToggle.addEventListener("click", () => {
-        if (navOverlay.classList.contains("is-open")) {
-            window.location.href = "index.html";
-        } else {
-            navOverlay.classList.add("is-open");
-        }
+     logoToggle.addEventListener("click", () => {
+    if (navOverlay.classList.contains("is-open")) {
+        navOverlay.classList.remove("is-open");
+    } else {
+        navOverlay.classList.add("is-open");
+    }
     });
 
     navClose.addEventListener("click", () => {

@@ -43,26 +43,38 @@ html, body {
     opacity: 1;
 }
 
+/* ==========================================================================
+   NAV OVERLAY
+   ========================================================================== */
 .nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
+
     opacity: 0;
+    pointer-events: none;
     visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s ease;
+
+    transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0.5s;
     z-index: 999;
 }
 
 .nav-overlay.is-open {
     opacity: 1;
+    pointer-events: auto;
     visibility: visible;
+
+    transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
 }
 
 .nav-content {
@@ -74,21 +86,23 @@ html, body {
 
 .nav-content a {
     font-family: 'General Sans', sans-serif;
+    font-weight: 400;
     color: #FDF0D5;
     text-decoration: none;
-    font-size: 21px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    opacity: 0.4;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    opacity: 0.5;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.nav-content a:hover {
+.nav-content a:hover,
+.nav-content a.active {
     opacity: 1;
     transform: scale(1.05);
 }
 
+/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
@@ -108,8 +122,48 @@ html, body {
     transform: rotate(90deg);
 }
 
+.nav-close svg {
+    display: block;
+}
+
+.filters {
+    position: fixed;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    color: #FDF0D5;
+    font-family: 'General Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: left;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    padding: 0;
+}
+
+.filter-btn:hover {
+    opacity: 0.7;
+    transform: translateX(8px);
+}
+
+.filter-btn.active {
+    opacity: 1;
+    transform: translateX(8px);
+}
+
 /* ==========================================================================
-   2. TIPOGRAFIA DE FUNDO — UMA EM CIMA, OUTRA EM BAIXO
+   2. TIPOGRAFIA DE FUNDO
    ========================================================================== */
 .bg-text-wrapper {
     position: fixed;
@@ -137,47 +191,44 @@ html, body {
     text-align: center;
 }
 
-/* Frase 1 — em CIMA, mais perto do centro */
 .phrase-1 {
     top: 20vh;
     font-size: 140px;
     animation: fadeInOutFirst 20s infinite ease-in-out;
 }
 
-/* Frase 2 — em BAIXO, mais perto do centro */
 .phrase-2 {
     bottom: 18vh;
-    font-size:300px;
+    font-size: 300px;
     animation: fadeInOutSecond 20s infinite ease-in-out;
 }
 
-/* Frase 3 — entre o carrossel e o footer */
 .phrase-3 {
     bottom: 5vh;
-    font-weight: regular;
+    font-weight: 400;
     font-size: clamp(1.2rem, 2.5vw, 2.5rem);
     opacity: 0;
     animation: fadeInOutThird 20s infinite ease-in-out;
 }
 
 @keyframes fadeInOutFirst {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    75% { opacity: 1; }
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    75%  { opacity: 1; }
     100% { opacity: 0; }
 }
 
 @keyframes fadeInOutSecond {
-    0% { opacity: 0; }
-    20% { opacity: 0; }
-    40% { opacity: 1; }
-    75% { opacity: 1; }
+    0%   { opacity: 0; }
+    20%  { opacity: 0; }
+    40%  { opacity: 1; }
+    75%  { opacity: 1; }
     100% { opacity: 0; }
 }
 
 @keyframes fadeInOutThird {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
+    0%   { opacity: 0.5; }
+    50%  { opacity: 1; }
     100% { opacity: 0.5; }
 }
 
@@ -218,7 +269,6 @@ html, body {
     backface-visibility: hidden;
 }
 
-/* Miniatura estática (sempre visível por baixo) */
 .video-card .poster-preview {
     position: absolute;
     top: 0;
@@ -231,7 +281,6 @@ html, body {
     z-index: 1;
 }
 
-/* Wrapper do iframe do Vimeo (invisível até ao hover) */
 .video-card .video-wrapper {
     position: absolute;
     top: 0;
@@ -314,13 +363,11 @@ html, body {
    ========================================================================== */
 @media (max-width: 768px) {
 
-    /* Esconder as frases grandes do fundo */
     .phrase-1,
     .phrase-2 {
         display: none !important;
     }
 
-    /* Manter apenas a frase pequena em baixo, mais visível */
     .phrase-3 {
         bottom: 8vh !important;
         font-size: 0.9rem !important;
@@ -328,7 +375,6 @@ html, body {
         opacity: 0.7 !important;
     }
 
-    /* Ajustar o túnel 3D para mobile — cartões mais pequenos */
     .video-card {
         width: 280px !important;
         height: 157.5px !important;
@@ -336,12 +382,10 @@ html, body {
         margin-top: -78.75px !important;
     }
 
-    /* Logo mais pequeno */
     .logo-container img {
         height: 42px;
     }
 
-    /* Nav overlay mais compacto */
     .nav-content a {
         font-size: 1.5rem;
         letter-spacing: 1px;
@@ -356,7 +400,6 @@ html, body {
         top: 20px;
     }
 
-    /* Footer em coluna */
     .site-footer {
         bottom: 15px;
         flex-direction: column;

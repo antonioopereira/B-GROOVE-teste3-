@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Bird: se menu aberto → vai para home; se fechado → abre menu
     logoToggle.addEventListener("click", () => {
-        if (navOverlay.classList.contains("is-open")) {
-            window.location.href = "index.html";
-        } else {
-            navOverlay.classList.add("is-open");
-        }
+    if (navOverlay.classList.contains("is-open")) {
+        navOverlay.classList.remove("is-open");
+    } else {
+        navOverlay.classList.add("is-open");
+    }
     });
 
     // Botão X: fecha o menu
