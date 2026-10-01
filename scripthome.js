@@ -65,6 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229158772", brand: "Marca P", title: "Projeto 16", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-15.webp" },
         { id: "1220835706", brand: "Marca Q", title: "Projeto 17", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
         { id: "1220831743", brand: "Marca R", title: "Projeto 18", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
+        { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-a.webp" },
+        { id: "1231970301", brand: "SlowJ feat. GSon & Mizzy Miles", title: "Champions-League", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-b.webp" },
+        { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-c.webp" },
 
         { id: "1228567548", brand: "Marca S", title: "Projeto 19", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
         { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
