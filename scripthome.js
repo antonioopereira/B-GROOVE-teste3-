@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
-     logoToggle.addEventListener("click", () => {
-    if (navOverlay.classList.contains("is-open")) {
-        navOverlay.classList.remove("is-open");
-    } else {
-        navOverlay.classList.add("is-open");
-    }
+    logoToggle.addEventListener("click", () => {
+        if (navOverlay.classList.contains("is-open")) {
+            navOverlay.classList.remove("is-open");
+        } else {
+            navOverlay.classList.add("is-open");
+        }
     });
 
     navClose.addEventListener("click", () => {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // TÚNEL 3D — CONFIGURAÇÕES
     // ==========================================
-       const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     const config = {
         totalImages: isMobile ? 10 : 15,
@@ -36,16 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
         speed: isMobile ? 1.2 : 1.5,
         lerp: 0.08,
         exitPoint: isMobile ? 400 : 600,
-        curveFactor: 0.18
+        curveFactor: 0.18,
+        lazyLoadZ: -2500   // distância a que se começa a carregar o iframe
     };
+
     // ==========================================
-    // DADOS + SHUFFLE (ordem aleatória a cada refresh)
+    // DADOS + SHUFFLE
     // ==========================================
     const rawData = [
-        // --- André Chitas ---
         { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
         { id: "1228562721", brand: "BIS", title: "Projeto 02", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
-        { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp"},
+        { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
         { id: "1228563134", brand: "Marca D", title: "Projeto 04", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-11.webp" },
         { id: "1229244984", brand: "Marca E", title: "Projeto 05", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
         { id: "951206509",  brand: "Marca F", title: "Projeto 06", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
@@ -55,8 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1064109149", brand: "Marca J", title: "Projeto 10", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
         { id: "951206473",  brand: "Marca K", title: "Projeto 11", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
         { id: "1075350120", brand: "Marca L", title: "Projeto 12", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
+        { id: "951206549",  brand: "Marca Y", title: "Projeto 25", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-12.webp" },
+        { id: "1229250084", brand: "Marca Z", title: "Projeto 26", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
 
-        // --- Gonçalo Xz ---
         { id: "1220816532", brand: "Marca M", title: "Projeto 13", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
         { id: "1220821289", brand: "Marca N", title: "Projeto 14", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
         { id: "1220828316", brand: "Marca O", title: "Projeto 15", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
@@ -64,16 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1220835706", brand: "Marca Q", title: "Projeto 17", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
         { id: "1220831743", brand: "Marca R", title: "Projeto 18", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
 
-        // --- Inês Monteiro ---
         { id: "1228567548", brand: "Marca S", title: "Projeto 19", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
-        { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp"  },
-        { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp"  },
-        { id: "1229127014", brand: "Marca V", title: "Projeto 22", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp"  },
-        { id: "1229127593", brand: "Marca W", title: "Projeto 23", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp"  },
-        { id: "1229129641", brand: "Marca X", title: "Projeto 24", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp"  }
+        { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
+        { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
+        { id: "1229127014", brand: "Marca V", title: "Projeto 22", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
+        { id: "1229127593", brand: "Marca W", title: "Projeto 23", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
+        { id: "1229129641", brand: "Marca X", title: "Projeto 24", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
-    // Fisher–Yates shuffle (mais aleatório que sort random)
     const mediaData = [...rawData];
     for (let i = mediaData.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.classList.add("video-card");
 
-        // ----- Miniatura estática (sempre visível por baixo) -----
+        // Miniatura
         const thumbnailUrl = data.Thumb || `https://vumbnail.com/${videoId}.jpg`;
         const img = document.createElement("img");
         img.src = thumbnailUrl;
@@ -110,14 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         card.appendChild(img);
 
-        // ----- Wrapper do iframe (criado vazio — iframe só é criado no lazy load) -----
+        // Wrapper do iframe
         const wrapper = document.createElement("div");
         wrapper.classList.add("video-wrapper");
         card.appendChild(wrapper);
 
         tunnelScene.appendChild(card);
 
-        // Guardar tudo o que precisamos no objeto do cartão
         cards.push({
             element: card,
             wrapper: wrapper,
@@ -130,13 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // FUNÇÃO DE CARREGAMENTO DO IFRAME (lazy)
+    // LAZY LOAD DO IFRAME
     // ==========================================
     function loadIframe(cardObj) {
         if (cardObj.iframeLoaded) return;
 
         const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${cardObj.videoId}?background=1&autoplay=0&loop=1&muted=1&api=1&title=0&byline=0&portrait=0`;
+        // ✅ background=1 → autoplay muted em loop (removido autoplay=0)
+        iframe.src = `https://player.vimeo.com/video/${cardObj.videoId}?background=1&loop=1&muted=1&api=1`;
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 z = cardObj.baseZ + currentScroll;
             }
 
-            // ----- Lazy load do iframe quando o cartão se aproxima -----
+            // Lazy load
             if (!cardObj.iframeLoaded && z > config.lazyLoadZ) {
                 loadIframe(cardObj);
             }
@@ -226,11 +226,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // HOVER — play / pause (nos cartões)
+    // HOVER — play / pause
     // ==========================================
     cards.forEach((cardObj) => {
         cardObj.element.addEventListener("mouseenter", () => {
-            // Garante que o iframe existe (caso hover antes de entrar em zona)
             loadIframe(cardObj);
 
             gsap.to(cardObj.wrapper, {
