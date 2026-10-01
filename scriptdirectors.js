@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const navClose = document.getElementById("nav-close");
 
     logoToggle.addEventListener("click", () => {
-    if (navOverlay.classList.contains("is-open")) {
-        navOverlay.classList.remove("is-open");
-    } else {
-        navOverlay.classList.add("is-open");
-    }
+        if (navOverlay.classList.contains("is-open")) {
+            navOverlay.classList.remove("is-open");
+        } else {
+            navOverlay.classList.add("is-open");
+        }
     });
 
     navClose.addEventListener("click", () => {
@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229244984", brand: "Guaraná", title: "Mãozinha", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
         { id: "951206509",  brand: "Marca F", title: "Projeto 06", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
         { id: "953718810",  brand: "Toyota", title: "Design", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-05.webp" },
-        { id: "955961149",  brand: "Toyota",  title: "Music", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-06.webp" },
+        { id: "955961149",  brand: "Toyota", title: "Music", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-06.webp" },
         { id: "951206549",  brand: "Havaianas", title: "Pegada", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-12.webp" },
         { id: "951206647",  brand: "Ampara Animal", title: "Life Print", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-09.webp" },
-        { id: "1229250084", brand: "Dinsey", title: "Disney+", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
+        { id: "1229250084", brand: "Disney", title: "Disney+", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
         { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
         { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
         { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
@@ -72,26 +72,31 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
+    // ==========================================
+    // SHUFFLE — misturar todos no "all"
+    // ==========================================
+    for (let i = videoData.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [videoData[i], videoData[j]] = [videoData[j], videoData[i]];
+    }
+
     const gallery = document.getElementById("gallery");
     const filterButtons = document.querySelectorAll(".filter-btn");
 
     // ==========================================
-    // ÁREA VIRTUAL
-    // 2 fileiras mais próximas (menos espaço vertical)
+    // ÁREA VIRTUAL — 2 fileiras
     // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const VIRTUAL_H = vh * 1.15;   // ← era 1.8, reduz a distância entre fileiras
+    const VIRTUAL_H = vh * 1.15;
     const ROWS = 2;
     const ROW_HEIGHT = VIRTUAL_H / ROWS;
     const BASE_FILL = 0.95;
     const GAP_X = 90;
     const RATIO = 16 / 9;
 
-    // ---- 3 tamanhos mais equilibrados ----
-    // média "grande": pequenos crescem, grandes diminuem
-    const TIERS = [0.45, 0.58, 0.72];      // ← era [0.32, 0.52, 0.72]
+    const TIERS = [0.55, 0.58, 0.72];
     const TIER_PATTERN = [2, 0, 1, 0, 2, 1, 0, 2, 1, 0];
 
     const rowCursors = new Array(ROWS).fill(vw * 0.35);
@@ -146,11 +151,19 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.classList.add("video-wrapper");
 
         const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&autoplay=0&loop=1&muted=1&api=1&title=0&byline=0&portrait=0`;
+        iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0&autopause=0`;
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
-        iframe.setAttribute("loading", "lazy");
+
+        iframe.addEventListener("load", () => {
+            setTimeout(() => {
+                iframe.contentWindow.postMessage(
+                    JSON.stringify({ method: "play" }),
+                    "*"
+                );
+            }, 500);
+        });
 
         wrapper.appendChild(iframe);
         item.appendChild(wrapper);
@@ -166,15 +179,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         item.addEventListener("mouseenter", () => {
             gsap.to(wrapper, { opacity: 1, duration: 0.4, ease: "power2.out" });
-            iframe.contentWindow.postMessage(JSON.stringify({ method: "play" }), "*");
         });
 
         item.addEventListener("mouseleave", () => {
             gsap.to(wrapper, { opacity: 0, duration: 0.3, ease: "power2.in" });
-            iframe.contentWindow.postMessage(JSON.stringify({ method: "pause" }), "*");
         });
 
         gallery.appendChild(item);
+
+        // Verificar se o título cabe numa linha; se não, empilhar
+        requestAnimationFrame(() => {
+            if (titleEl.offsetWidth > item.offsetWidth - 24) {
+                titleEl.classList.add("is-stacked");
+            }
+        });
 
         rowCursors[row] += imgW + GAP_X;
         maxX = Math.max(maxX, baseX + imgW);
