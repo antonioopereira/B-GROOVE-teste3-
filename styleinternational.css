@@ -218,20 +218,6 @@ html, body {
     color: #FDF0D5;
 }
 
-.video-title .title-sep {
-    font-weight: 400;
-    font-size: 20px;
-    color: #FDF0D5;
-    opacity: 0.5;
-}
-
-.video-title .title-work {
-    font-weight: 400;
-    font-size: 20px;
-    color: #FDF0D5;
-    opacity: 0.9;
-}
-
 .gallery-item:hover .video-title {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);

@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
-     logoToggle.addEventListener("click", () => {
-    if (navOverlay.classList.contains("is-open")) {
-        navOverlay.classList.remove("is-open");
-    } else {
-        navOverlay.classList.add("is-open");
-    }
+    logoToggle.addEventListener("click", () => {
+        if (navOverlay.classList.contains("is-open")) {
+            navOverlay.classList.remove("is-open");
+        } else {
+            navOverlay.classList.add("is-open");
+        }
     });
 
     navClose.addEventListener("click", () => {
@@ -36,14 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoData = [
         {
             id: "1208286427",
-            brand: "International",
-            title: "01",
+            brand: "American Eagle.",
             Thumb: "images/international/imagem-01.webp"
         },
         {
             id: "1208286424",
-            brand: "International",
-            title: "02",
+            brand: "American Eagle.",
             Thumb: "images/international/imagem-02.webp"
         }
     ];
@@ -62,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const thumbnailUrl = data.Thumb || `https://vumbnail.com/${data.id}.jpg`;
         const img = document.createElement("img");
         img.src = thumbnailUrl;
-        img.alt = `${data.brand} — ${data.title}`;
+        img.alt = data.brand;
         img.classList.add("poster-preview");
         img.onerror = () => {
             console.error("❌ Falhou miniatura:", thumbnailUrl);
@@ -75,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.classList.add("video-wrapper");
 
         const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&autoplay=0&loop=1&muted=1&api=1&title=0&byline=0&portrait=0`;
+        iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&loop=1&muted=1&api=1`;
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
@@ -84,40 +82,28 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.appendChild(iframe);
         item.appendChild(wrapper);
 
-        // Título
+        // Título — só o nome da marca
         const titleEl = document.createElement("div");
         titleEl.classList.add("video-title");
-        titleEl.innerHTML = `
-            <span class="title-brand">${data.brand}</span>
-            <span class="title-sep">—</span>
-            <span class="title-work">${data.title}</span>
-        `;
+        titleEl.innerHTML = `<span class="title-brand">${data.brand}</span>`;
         item.appendChild(titleEl);
 
-        // Hover → fade in + play
+        // Hover → fade in
         item.addEventListener("mouseenter", () => {
             gsap.to(wrapper, {
                 opacity: 1,
                 duration: 0.4,
                 ease: "power2.out"
             });
-            iframe.contentWindow.postMessage(
-                JSON.stringify({ method: "play" }),
-                "*"
-            );
         });
 
-        // Mouse leave → pause + fade out
+        // Mouse leave → fade out
         item.addEventListener("mouseleave", () => {
             gsap.to(wrapper, {
                 opacity: 0,
                 duration: 0.3,
                 ease: "power2.in"
             });
-            iframe.contentWindow.postMessage(
-                JSON.stringify({ method: "pause" }),
-                "*"
-            );
         });
 
         gallery.appendChild(item);
@@ -159,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const gapX = vw * 0.04;
             const totalGap = gapX * (items.length - 1);
 
-            // largura limitada por viewport width E por viewport height
             const maxWByWidth = (vw * 0.88 - totalGap) / items.length;
             const maxWByHeight = vh * 0.75 * RATIO;
             const itemW = Math.min(maxWByWidth, maxWByHeight);
@@ -183,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     layout();
 
-    // Relayout ao redimensionar
     window.addEventListener("resize", layout);
 
     console.log(`🌍 International: ${items.length} vídeos | modo: ${isMobile ? "mobile" : "desktop"}`);

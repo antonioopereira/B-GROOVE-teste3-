@@ -20,9 +20,9 @@
 
         <nav class="nav-content">
             <a href="index.html">home</a>
-            <a href="directors.html">directors</a>
+            <a href="directors.html" class="active">directors</a>
             <a href="photographers.html">photographers</a>
-            <a href="filmtv.html">film & TV</a>
+            <a href="filmtv.html">film & tv</a>
             <a href="international.html">international</a>
             <a href="https://spritz.com.br/" target="_blank" rel="noopener">spritz</a>
             <a href="us.html">us.</a>
@@ -35,20 +35,19 @@
         <img src="Asset 1.svg" alt="B Groove Logo">
     </div>
 
-    <!-- Filtros -->
-    <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="andre-chitas">André Chitas</button>
-        <button class="filter-btn" data-filter="goncalo-xz">Gonçalo Xz</button>
-        <button class="filter-btn" data-filter="ines-monteiro">Inês Monteiro</button>
-    </div>
-
     <!-- Galeria -->
     <div class="gallery-container">
         <div class="gallery" id="gallery"></div>
     </div>
 
-    <!-- Callout "call a friend: <nome>" -->
+    <!-- Submenu de Diretores — sobreposto, transparente -->
+    <nav class="directors-submenu" id="directors-submenu">
+        <a href="#" class="director-link" data-director="andre-chitas">André Chitas</a>
+        <a href="#" class="director-link" data-director="goncalo-xz">Gonçalo Xz</a>
+        <a href="#" class="director-link" data-director="ines-monteiro">Inês Monteiro</a>
+    </nav>
+
+    <!-- Callout "Call a Friend." -->
     <div id="filter-callout" class="filter-callout"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

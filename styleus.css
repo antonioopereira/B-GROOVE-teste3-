@@ -171,8 +171,7 @@ html, body {
 
 /* Tagline final — "LIVING IS DANGEROUS, CALL A FRIEND." */
 .us-tagline {
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-weight: regular;
     font-size: 18px;
     margin-top: 20px;
     opacity: 1;

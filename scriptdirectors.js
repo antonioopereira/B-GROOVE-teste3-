@@ -31,57 +31,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // CALLOUT
+    // CALLOUT + SUBMENU
     // ==========================================
     const filterCallout = document.getElementById("filter-callout");
+    const submenu = document.getElementById("directors-submenu");
 
     // ==========================================
     // DADOS DOS VÍDEOS
     // ==========================================
     const videoData = [
-        { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
-        { id: "1228562721", brand: "BIS", title: "Rh", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
-        { id: "951206599",  brand: "KitKat", title: "The Town", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
-        { id: "1228563134", brand: "BIS", title: "Interceptação", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-11.webp" },
-        { id: "1229244984", brand: "Guaraná", title: "Mãozinha", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
-        { id: "951206509",  brand: "Marca F", title: "Projeto 06", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
-        { id: "953718810",  brand: "Toyota", title: "Design", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-05.webp" },
-        { id: "955961149",  brand: "Toyota", title: "Music", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-06.webp" },
-        { id: "951206549",  brand: "Havaianas", title: "Pegada", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-12.webp" },
-        { id: "951206647",  brand: "Ampara Animal", title: "Life Print", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-09.webp" },
-        { id: "1229250084", brand: "Disney", title: "Disney+", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
-        { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
-        { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
-        { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
+        { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", order: 0, Thumb: "images/andre-chitas/imagem-01.webp" },
+        { id: "1228562721", brand: "BIS", title: "Rh", director: "andre-chitas", order: 1, Thumb: "images/andre-chitas/imagem-02.webp" },
+        { id: "951206599",  brand: "KitKat", title: "The Town", director: "andre-chitas", order: 2, Thumb: "images/andre-chitas/imagem-03.webp" },
+        { id: "1228563134", brand: "BIS", title: "Interceptação", director: "andre-chitas", order: 3, Thumb: "images/andre-chitas/imagem-11.webp" },
+        { id: "1229244984", brand: "Guaraná", title: "Mãozinha", director: "andre-chitas", order: 4, Thumb: "images/andre-chitas/imagem-13.webp" },
+        { id: "951206509",  brand: "Cobasi", title: "Pets", director: "andre-chitas", order: 5, Thumb: "images/andre-chitas/imagem-04.webp" },
+        { id: "953718810",  brand: "Toyota", title: "Design", director: "andre-chitas", order: 6, Thumb: "images/andre-chitas/imagem-05.webp" },
+        { id: "955961149",  brand: "Toyota", title: "Music", director: "andre-chitas", order: 7, Thumb: "images/andre-chitas/imagem-06.webp" },
+        { id: "951206549",  brand: "Havaianas", title: "Pegada", director: "andre-chitas", order: 8, Thumb: "images/andre-chitas/imagem-12.webp" },
+        { id: "951206647",  brand: "Ampara Animal", title: "Life Print", director: "andre-chitas", order: 9, Thumb: "images/andre-chitas/imagem-09.webp" },
+        { id: "1229250084", brand: "Disney", title: "Disney+", director: "andre-chitas", order: 10, Thumb: "images/andre-chitas/imagem-14.webp" },
+        { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", order: 11, Thumb: "images/andre-chitas/imagem-08.webp" },
+        { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", order: 12, Thumb: "images/andre-chitas/imagem-10.webp" },
+        { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", order: 13, Thumb: "images/andre-chitas/imagem-07.webp" },
 
-        { id: "1220816532", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
-        { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
-        { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-a.webp" },
-        { id: "1231970301", brand: "SlowJ feat. GSon & Mizzy Miles", title: "Champions-League", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-b.webp" },
-        { id: "1220828316", brand: "Conan Osíris", title: "Moleirinha", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
-        { id: "1229158772", brand: "Mizzy Miles feat. T Rex & Zara G", title: "Fim do Nada", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-15.webp" },
-        { id: "1220835706", brand: "SlowJ", title: "Where u @", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
-        { id: "1220831743", brand: "Project x", title: "Ghuettop", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
-        { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-c.webp" },
+        { id: "1220816532", brand: "Profjam", title: "Dakar", director: "goncalo-xz", order: 0, Thumb: "images/goncalo-xz/imagem-13.webp" },
+        { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz", order: 1, Thumb: "images/goncalo-xz/imagem-14.webp" },
+        { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", order: 2, Thumb: "images/goncalo-xz/imagem-a.webp" },
+        { id: "1220828316", brand: "Conan Osíris", title: "Moleirinha", director: "goncalo-xz", order: 3, Thumb: "images/goncalo-xz/imagem-17.webp" },
+        { id: "1231970301", brand: "SlowJ feat. GSon & Mizzy Miles", title: "Champions-League", director: "goncalo-xz", order: 4, Thumb: "images/goncalo-xz/imagem-b.webp" },
+        { id: "1229158772", brand: "Mizzy Miles feat. T Rex & Zara G", title: "Fim do Nada", director: "goncalo-xz", order: 5, Thumb: "images/goncalo-xz/imagem-15.webp" },
+        { id: "1220835706", brand: "SlowJ", title: "Where u @", director: "goncalo-xz", order: 6, Thumb: "images/goncalo-xz/imagem-18.webp" },
+        { id: "1220831743", brand: "Project x", title: "Ghuettop", director: "goncalo-xz", order: 7, Thumb: "images/goncalo-xz/imagem-16.webp" },
+        { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", order: 8, Thumb: "images/goncalo-xz/imagem-c.webp" },
 
-        { id: "1228567548", brand: "Mar", title: "Sem Carta", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
-        { id: "1229123992", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
-        { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
-        { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
-        { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
-        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
+        { id: "1228567548", brand: "Mar", title: "Sem Carta", director: "ines-monteiro", order: 0, Thumb: "images/ines-monteiro/imagem-24.webp" },
+        { id: "1229123992", brand: "Mar", title: "Old Money", director: "ines-monteiro", order: 1, Thumb: "images/ines-monteiro/imagem-20.webp" },
+        { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", order: 2, Thumb: "images/ines-monteiro/imagem-22.webp" },
+        { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", order: 3, Thumb: "images/ines-monteiro/imagem-21.webp" },
+        { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", order: 4, Thumb: "images/ines-monteiro/imagem-23.webp" },
+        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", order: 5, Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
-    // ==========================================
-    // SHUFFLE — misturar todos no "all"
-    // ==========================================
+    // Shuffle só para o "all"
     for (let i = videoData.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [videoData[i], videoData[j]] = [videoData[j], videoData[i]];
     }
 
     const gallery = document.getElementById("gallery");
-    const filterButtons = document.querySelectorAll(".filter-btn");
 
     // ==========================================
     // ÁREA VIRTUAL — 2 fileiras
@@ -89,14 +87,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const VIRTUAL_H = vh * 1.15;
+    const VIRTUAL_H = vh * 1.5;
     const ROWS = 2;
     const ROW_HEIGHT = VIRTUAL_H / ROWS;
     const BASE_FILL = 0.95;
     const GAP_X = 90;
     const RATIO = 16 / 9;
 
-    const TIERS = [0.55, 0.58, 0.72];
+    // ---- TIERS com mais contraste, mas sem extremos ----
+    // pequeno: 0.42 | médio: 0.58 | grande: 0.75
+    const TIERS = [0.42, 0.58, 0.75];
     const TIER_PATTERN = [2, 0, 1, 0, 2, 1, 0, 2, 1, 0];
 
     const rowCursors = new Array(ROWS).fill(vw * 0.35);
@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = document.createElement("div");
         item.classList.add("gallery-item");
         item.dataset.director = data.director;
+        item.dataset.order = data.order;
 
         const tierIndex = TIER_PATTERN[i % TIER_PATTERN.length];
         const tier = TIERS[tierIndex];
@@ -187,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         gallery.appendChild(item);
 
-        // Verificar se o título cabe numa linha; se não, empilhar
         requestAnimationFrame(() => {
             if (titleEl.offsetWidth > item.offsetWidth - 24) {
                 titleEl.classList.add("is-stacked");
@@ -269,7 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.height = "auto";
 
         const refilterMobile = () => {
-            const visibleItems = items.filter(it => !it.element.classList.contains("hidden"));
+            const visibleItems = items
+                .filter(it => !it.element.classList.contains("hidden"))
+                .sort((a, b) =>
+                    Number(a.element.dataset.order) - Number(b.element.dataset.order)
+                );
+
             const visibleRows = Math.max(1, Math.ceil(visibleItems.length / MOBILE_COLS));
             const contentH = MOBILE_PADDING_TOP + visibleRows * (MOBILE_IMG_H + MOBILE_GAP_Y) + 200;
 
@@ -315,8 +320,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const WHEEL_SENSITIVITY = 1.0;
         const TOUCH_SENSITIVITY = 1.5;
 
+        const AUTO_SCROLL_SPEED = 0.6;
+        let lastTime = performance.now();
+
         window.addEventListener("wheel", (e) => {
             if (e.target.closest(".nav-overlay")) return;
+            if (e.target.closest(".directors-submenu")) return;
             e.preventDefault();
 
             targetPanX = clamp(targetPanX - e.deltaX * WHEEL_SENSITIVITY, MIN_PAN_X, MAX_PAN_X);
@@ -333,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let isTouching = false;
 
         window.addEventListener("touchstart", (e) => {
-            if (e.target.closest(".logo-container, .nav-overlay, .filters, .site-footer")) return;
+            if (e.target.closest(".logo-container, .nav-overlay, .site-footer, .directors-submenu")) return;
             if (e.target.closest(".video-wrapper")) return;
 
             const t = e.touches[0];
@@ -361,6 +370,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         function loop() {
+            const now = performance.now();
+            const dt = (now - lastTime) / 1000;
+            lastTime = now;
+
+            const submenuVisible = submenu &&
+                submenu.style.display !== "none" &&
+                parseFloat(getComputedStyle(submenu).opacity) > 0.01;
+
+            if (submenuVisible) {
+                targetPanX -= AUTO_SCROLL_SPEED * dt * 60;
+
+                if (targetPanX < MIN_PAN_X) {
+                    currentPanX = MAX_PAN_X;
+                    targetPanX = MAX_PAN_X;
+                }
+            }
+
             const smooth = 0.08;
             currentPanX += (targetPanX - currentPanX) * smooth;
             currentPanY += (targetPanY - currentPanY) * smooth;
@@ -374,10 +400,16 @@ document.addEventListener("DOMContentLoaded", () => {
         loop();
 
         // ======================================
-        // RE-CENTRAR ITENS FILTRADOS — 2 fileiras
+        // DISTRIBUIÇÃO ORGÂNICA DOS ITENS FILTRADOS
+        // Não usa grelha rígida: distribui em 2 fileiras
+        // com espaçamento variável (jitter determinístico)
         // ======================================
         function centerFilteredItemsDesktop() {
-            const visible = items.filter(it => !it.element.classList.contains("hidden"));
+            const visible = items
+                .filter(it => !it.element.classList.contains("hidden"))
+                .sort((a, b) =>
+                    Number(a.element.dataset.order) - Number(b.element.dataset.order)
+                );
 
             if (visible.length === items.length) {
                 items.forEach(it => {
@@ -392,8 +424,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const n = visible.length;
-            const GAP = 90;
 
+            // distribuir por 2 fileiras (o mais equilibrado possível)
             const itemsPerRow = Math.ceil(n / ROWS);
             const rows = [];
             for (let r = 0; r < ROWS; r++) {
@@ -402,29 +434,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (start < n) rows.push(visible.slice(start, end));
             }
 
-            const rowWidths = rows.map(row => {
-                let w = 0;
+            // largura total de cada fileira, com gaps variáveis entre itens
+            const rowData = rows.map(row => {
+                const gaps = [];
+                let totalW = 0;
+
                 row.forEach((it, i) => {
-                    w += it.originalW;
-                    if (i < row.length - 1) w += GAP;
+                    totalW += it.originalW;
+
+                    if (i < row.length - 1) {
+                        // gap base com jitter determinístico
+                        const baseGap = 70;
+                        const jitter =
+                            (seededRandom(i * 1.91 + 2.3) - 0.5) * 60;
+                        const gap = Math.max(30, baseGap + jitter);
+
+                        gaps.push(gap);
+                        totalW += gap;
+                    }
                 });
-                return w;
+
+                return { row, gaps, totalW };
             });
 
-            const maxRowWidth = Math.max(...rowWidths);
+            const maxRowW = Math.max(...rowData.map(r => r.totalW));
             const blockH = rows.length * ROW_HEIGHT;
 
-            const startX = (VIRTUAL_W - maxRowWidth) / 2;
+            // centrar o bloco no canvas virtual
+            const startX = (VIRTUAL_W - maxRowW) / 2;
             const startY = (VIRTUAL_H - blockH) / 2;
 
-            rows.forEach((row, r) => {
-                const rowWidth = rowWidths[r];
-                const rowStartX = startX + (maxRowWidth - rowWidth) / 2;
+            rowData.forEach((data, r) => {
+                const { row, gaps, totalW } = data;
+
+                // centrar cada fileira dentro do bloco
+                const rowStartX = startX + (maxRowW - totalW) / 2;
                 const rowY = startY + r * ROW_HEIGHT;
 
                 let cursorX = rowStartX;
-                row.forEach(it => {
-                    const itemY = rowY + (ROW_HEIGHT - it.originalH) / 2;
+
+                row.forEach((it, i) => {
+                    // jitter vertical próprio de cada item
+                    const maxJitterY = Math.max(0, ROW_HEIGHT - it.originalH);
+                    const jitterY =
+                        (seededRandom(it.originalW * 0.13 + i * 2.71 + 3.1) - 0.5)
+                        * maxJitterY * 0.6;
+
+                    const itemY = rowY + (ROW_HEIGHT - it.originalH) / 2 + jitterY;
 
                     gsap.to(it.element, {
                         left: cursorX,
@@ -433,7 +489,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         ease: "power3.inOut"
                     });
 
-                    cursorX += it.originalW + GAP;
+                    cursorX += it.originalW;
+                    if (i < row.length - 1) cursorX += gaps[i];
                 });
             });
 
@@ -445,45 +502,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // FILTROS
+    // APLICAR FILTRO
     // ==========================================
-    filterButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            filterButtons.forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
-
-            const filter = btn.dataset.filter;
-
-            items.forEach((item) => {
-                const director = item.element.dataset.director;
-                if (filter === "all" || director === filter) {
-                    item.element.classList.remove("hidden");
-                } else {
-                    item.element.classList.add("hidden");
-                }
-            });
-
-            if (typeof relayout === "function") relayout();
-
-            if (filterCallout) {
-                gsap.killTweensOf(filterCallout);
-
-                if (filter === "all") {
-                    gsap.to(filterCallout, {
-                        opacity: 0,
-                        duration: 0.3,
-                        ease: "power2.in",
-                        onComplete: () => { filterCallout.textContent = ""; }
-                    });
-                } else {
-                    filterCallout.textContent = "Call a Friend.";
-                    gsap.fromTo(filterCallout,
-                        { opacity: 0 },
-                        { opacity: 1, duration: 0.7, delay: 0.3, ease: "power2.out" }
-                    );
-                }
+    function applyFilter(filter) {
+        items.forEach((item) => {
+            const director = item.element.dataset.director;
+            if (filter === "all" || director === filter) {
+                item.element.classList.remove("hidden");
+            } else {
+                item.element.classList.add("hidden");
             }
         });
+
+        if (typeof relayout === "function") relayout();
+
+        if (filterCallout) {
+            gsap.killTweensOf(filterCallout);
+
+            if (filter === "all") {
+                gsap.to(filterCallout, {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    onComplete: () => { filterCallout.textContent = ""; }
+                });
+            } else {
+                filterCallout.textContent = "Call a Friend.";
+                gsap.fromTo(filterCallout,
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.7, delay: 0.3, ease: "power2.out" }
+                );
+            }
+        }
+    }
+
+    // ==========================================
+    // SUBMENU — cliques nos nomes
+    // ==========================================
+    const directorLinks = document.querySelectorAll(".director-link");
+
+    directorLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const director = link.dataset.director;
+
+            if (submenu) {
+                gsap.to(submenu, {
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        submenu.style.display = "none";
+                    }
+                });
+            }
+
+            applyFilter(director);
+
+            const url = new URL(window.location);
+            url.searchParams.set("director", director);
+            window.history.pushState({}, "", url);
+        });
     });
+
+    // ==========================================
+    // ESTADO INICIAL — se vier com ?director= aplica logo
+    // ==========================================
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get("director");
+
+    if (initial) {
+        if (submenu) submenu.style.display = "none";
+        applyFilter(initial);
+    }
 
 });
