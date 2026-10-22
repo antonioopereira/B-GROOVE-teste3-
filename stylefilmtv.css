@@ -1,7 +1,7 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
 
-/* 👇 ESTE BLOCO ESTAVA EM FALTA — define o tamanho dos posters 👇 */
+/* 👇 ESTE BLOCO DEFINE O TAMANHO DOS POSTERS 👇 */
 :root {
     --poster-w: 300px;
     --poster-h: 450px;
@@ -17,9 +17,9 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #eae9dc; /* NOVO FUNDO */
     font-family: 'General Sans', sans-serif;
-    color: #FDF0D5;
+    color: #bb0000; /* NOVA COR DE TEXTO */
     user-select: none;
     overscroll-behavior: none;
 }
@@ -45,7 +45,8 @@ html, body {
     height: 60px;
     width: auto;
     display: block;
-    filter: brightness(0) invert(1);
+    /* Filtro para tornar a logo vermelha */
+    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
     opacity: 1;
 }
 
@@ -58,11 +59,12 @@ html, body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(234, 233, 220, 0.92); /* Fundo creme transparente */
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
+    opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s ease;
     z-index: 999;
@@ -83,12 +85,12 @@ html, body {
 .nav-content a {
     font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000; /* Texto vermelho */
     text-decoration: none;
     font-size: 24px;
     letter-spacing: 0.5px;
     text-transform: none;
-    opacity: 1;
+    opacity: 0.6;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -105,7 +107,7 @@ html, body {
     right: 50px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
@@ -128,7 +130,7 @@ html, body {
    ========================================================================== */
 .page-header {
     position: fixed;
-    top: 100px;        /* 👈 era 140px — agora fica bem no topo */
+    top: 100px;
     left: 50px;
     z-index: 10;
     max-width: 500px;
@@ -142,7 +144,7 @@ html, body {
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
-    color: #FDF0D5;
+    color: #bb0000; /* Título vermelho */
 }
 
 .page-subtitle {
@@ -150,8 +152,8 @@ html, body {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
-    color: #FDF0D5;
-    opacity: 0.4;
+    color: #bb0000;
+    opacity: 0.6;
     margin-top: 12px;
 }
 
@@ -172,7 +174,7 @@ html, body {
 
 .scene-horizontal {
     position: absolute;
-    top: 60%;          /* 👈 era 50% — move o túnel 10% para baixo */
+    top: 60%;
     left: 50%;
     width: 0;
     height: 0;
@@ -184,7 +186,7 @@ html, body {
     position: absolute;
     width: var(--poster-w);
     height: var(--poster-h);
-    background: #111;
+    background: #1a1a1a;
     overflow: hidden;
     transform-style: preserve-3d;
     will-change: transform, opacity;
@@ -224,7 +226,7 @@ html, body {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: #FDF0D5;
+    color: #eae9dc; /* Mantém-se claro para ler sobre a imagem escura */
     margin-bottom: 4px;
 }
 
@@ -234,8 +236,8 @@ html, body {
     font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: #FDF0D5;
-    opacity: 0.6;
+    color: #eae9dc;
+    opacity: 0.8;
 }
 
 /* ==========================================================================
@@ -252,7 +254,7 @@ html, body {
     align-items: center;
     padding: 0 50px;
     pointer-events: none;
-    opacity: 0.55;
+    opacity: 0.6;
     transition: opacity 0.4s ease;
 }
 
@@ -268,7 +270,7 @@ html, body {
     font-family: 'General Sans', sans-serif;
     font-size: 13px;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000;
     max-width: 380px;
 }
 
@@ -281,7 +283,7 @@ html, body {
     font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: #FDF0D5;
+    color: #bb0000;
     text-decoration: none;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -388,7 +390,7 @@ html, body {
 .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(234, 233, 220, 0.85); /* Fundo do modal creme transparente */
     backdrop-filter: blur(12px);
     cursor: pointer;
 }
@@ -399,12 +401,12 @@ html, body {
     width: 100%;
     max-height: 85vh;
     overflow-y: auto;
-    background: #0a0a0a;
-    border: 1px solid rgba(253, 240, 213, 0.08);
+    background: #eae9dc;
+    border: 1px solid rgba(187, 0, 0, 0.15);
     padding: 60px 60px 50px;
     transform: translateY(20px);
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15); /* Sombra ajustada para fundo claro */
 }
 
 .modal.is-open .modal-content {
@@ -419,7 +421,7 @@ html, body {
     background: transparent;
 }
 .modal-content::-webkit-scrollbar-thumb {
-    background: rgba(253, 240, 213, 0.15);
+    background: rgba(187, 0, 0, 0.2);
     border-radius: 2px;
 }
 
@@ -430,7 +432,7 @@ html, body {
     right: 20px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
@@ -450,7 +452,7 @@ html, body {
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
-    color: #FDF0D5;
+    color: #bb0000;
     margin-bottom: 16px;
 }
 
@@ -461,8 +463,8 @@ html, body {
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #FDF0D5;
-    opacity: 0.4;
+    color: #bb0000;
+    opacity: 0.6;
     margin-bottom: 32px;
     line-height: 1.6;
 }
@@ -473,8 +475,8 @@ html, body {
     font-size: 15px;
     font-weight: 400;
     line-height: 1.75;
-    color: #FDF0D5;
-    opacity: 0.85;
+    color: #bb0000;
+    opacity: 0.9;
     margin-bottom: 32px;
 }
 
@@ -484,7 +486,7 @@ html, body {
     flex-direction: column;
     gap: 18px;
     padding-top: 28px;
-    border-top: 1px solid rgba(253, 240, 213, 0.1);
+    border-top: 1px solid rgba(187, 0, 0, 0.15);
 }
 
 .modal-info-row {
@@ -499,8 +501,8 @@ html, body {
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #FDF0D5;
-    opacity: 0.35;
+    color: #bb0000;
+    opacity: 0.5;
 }
 
 .modal-info-value {
@@ -508,7 +510,7 @@ html, body {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.6;
-    color: #FDF0D5;
+    color: #bb0000;
     opacity: 0.9;
 }
 
@@ -516,7 +518,7 @@ html, body {
 .modal-notes {
     margin-top: 24px;
     padding-top: 24px;
-    border-top: 1px solid rgba(253, 240, 213, 0.1);
+    border-top: 1px solid rgba(187, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -527,8 +529,8 @@ html, body {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.6;
-    color: #FDF0D5;
-    opacity: 0.55;
+    color: #bb0000;
+    opacity: 0.7;
     padding-left: 16px;
     position: relative;
 }
@@ -638,17 +640,55 @@ html, body {
         font-size: 13px;
     }
 
-    /* Footer */
-    .site-footer {
-        bottom: 15px;
-        flex-direction: column;
-        gap: 8px;
-        padding: 0 20px;
-        text-align: center;
-    }
+   /* ==========================================================================
+   4. FOOTER
+   ========================================================================== */
+.site-footer {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 100;
+    pointer-events: none;
+}
 
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
-    }
+.footer-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.footer-left .text {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.1;
+    text-transform: lowercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
+    color: #bb0000;
+}
+
+.red-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #bb0000;
+    margin-bottom: 10px;
+}
+
+.footer-right {
+    pointer-events: auto;
+}
+
+.copyright {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    opacity: 0.8;
+    color: #bb0000;
+}
+
 }

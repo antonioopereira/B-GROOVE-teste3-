@@ -11,16 +11,14 @@
 
     <!-- Overlay de Navegação Fullscreen -->
     <div class="nav-overlay" id="nav-overlay">
-
-        <!-- Botão X para fechar -->
         <button class="nav-close" id="nav-close" aria-label="Fechar menu">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <line x1="6" y1="6" x2="18" y2="18"></line>
                 <line x1="18" y1="6" x2="6" y2="18"></line>
             </svg>
         </button>
-
         <nav class="nav-content">
+            <a href="index.html" class="active">home</a>
             <a href="directors.html">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
@@ -31,25 +29,43 @@
         </nav>
     </div>
 
-    <!-- Logo Central (Botão de Navegação) -->
-    <div class="logo-container" id="logo-toggle">
-        <img src="Asset 1.svg" alt="B Groove Logo">
+    <!-- Top Bar (Apenas Logo ao centro) -->
+    <header class="top-bar">
+        <div class="logo-container" id="logo-toggle">
+            <img src="Asset 1.svg" alt="B Groove Logo">
+        </div>
+    </header>
+
+    <!-- Carrossel -->
+    <div class="carousel-viewport">
+        <button class="carousel-btn carousel-btn--prev" id="carousel-prev" aria-label="Anterior">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="carousel-track" id="carousel-track"></div>
+
+        <button class="carousel-btn carousel-btn--next" id="carousel-next" aria-label="Seguinte">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
     </div>
 
-    <!-- Tipografia de Fundo — Lados Esquerdo e Direito -->
-    <div class="bg-text-wrapper">
-        <div class="bg-word phrase-1">Living is dangerous,</div>
-        <div class="bg-word phrase-2">call a friend.</div>
-        <div class="bg-word phrase-3">Living is dangerous, call a friend.</div>
-    </div>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-left">
+            <div class="text">creative<br>production<br>house.</div>
+            <div class="red-line"></div>
+        </div>
+        <div class="footer-right">
+            <span class="living-text">Living is dangerous,</span>
+            <span class="call-friend">call a friend.</span>
+            <span class="copyright">all rights reserved ©</span>
+        </div>
+    </footer>
 
-    <!-- Viewport do Túnel 3D -->
-    <div class="tunnel-viewport">
-        <div class="tunnel-scene" id="tunnel-scene"></div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="scripthome.js"></script>
 
 </body>

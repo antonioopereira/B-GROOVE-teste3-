@@ -1,4 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
 
 * {
     margin: 0;
@@ -10,60 +11,77 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #eae9dc; /* Fundo creme */
     font-family: 'General Sans', sans-serif;
-    color: #FDF0D5;
+    color: #bb0000; /* Texto vermelho */
     user-select: none;
-    overscroll-behavior: contain;
+    overscroll-behavior: none;
 }
 
 /* ==========================================================================
-   1. LOGO CENTRAL & NAVEGAÇÃO
+   NAV OVERLAY & TOP BAR
    ========================================================================== */
-.logo-container {
+.top-bar {
     position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1000;
+}
+
+.logo-container {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .logo-container:hover {
-    transform: translateX(-50%) scale(1.08);
+    transform: scale(1.05);
 }
 
 .logo-container img {
-    height: 60px;
+    height: 35px;
     width: auto;
     display: block;
-    filter: brightness(0) invert(1);
-    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
 }
 
-/* ==========================================================================
-   NAV OVERLAY
-   ========================================================================== */
+.home-link, .about-link {
+    font-family: 'General Sans', sans-serif;
+    color: #bb0000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.about-link {
+    text-transform: uppercase;
+}
+
 .nav-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
+    inset: 0;
+    background: rgba(234, 233, 220, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.8;
+    opacity: 0;
+    pointer-events: none;
     visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s ease;
-    z-index: 999;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
+    z-index: 9999;
 }
 
 .nav-overlay.is-open {
     opacity: 1;
+    pointer-events: auto;
     visibility: visible;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
 }
 
 .nav-content {
@@ -74,36 +92,30 @@ html, body {
 }
 
 .nav-content a {
-    font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000;
     text-decoration: none;
     font-size: 24px;
-    letter-spacing: 0.5px;
-    text-transform: none;
-    opacity: 1;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
 }
 
 .nav-content a:hover,
 .nav-content a.active {
     opacity: 1;
-    transform: scale(1.05);
 }
 
-/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
     right: 50px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 1001;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .nav-close:hover {
@@ -111,20 +123,12 @@ html, body {
     transform: rotate(90deg);
 }
 
-.nav-close svg {
-    display: block;
-}
-
-
 /* ==========================================================================
-   2. GALERIA
+   GALERIA
    ========================================================================== */
 .gallery-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     overflow: hidden;
     z-index: 1;
 }
@@ -135,22 +139,18 @@ html, body {
     left: 0;
 }
 
-/* ==========================================================================
-   3. ITEM DA GALERIA
-   ========================================================================== */
 .gallery-item {
     position: absolute;
     overflow: hidden;
     will-change: transform, opacity;
     transition: opacity 0.4s ease, transform 0.4s ease;
-    background: #111;
+    background: #1a1a1a;
     cursor: pointer;
 }
 
 .gallery-item .poster-preview {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -164,15 +164,9 @@ html, body {
     transform: scale(1.05);
 }
 
-/* ==========================================================================
-   4. WRAPPER DO IFRAME DO VIMEO
-   ========================================================================== */
 .video-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: #000;
     z-index: 5;
     opacity: 0;
@@ -187,170 +181,86 @@ html, body {
     display: block;
 }
 
-/* ==========================================================================
-   5. TÍTULO (marca — trabalho)
-   ========================================================================== */
+/* Título (Marca) */
 .video-title {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
+    bottom: 20px;
+    left: 25px;
     z-index: 10;
-    font-family: 'General Sans', sans-serif;
-    font-size: 20px;
-    letter-spacing: 0.5px;
-    color: #FDF0D5;
-    text-align: center;
+    color: #eae9dc;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease, transform 0.4s ease;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.video-title .title-brand {
-    font-weight: 600;
-    font-size: 20px;
-    color: #FDF0D5;
+    transform: translateY(10px);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    max-width: 85%;
 }
 
 .gallery-item:hover .video-title {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateY(0);
+}
+
+.video-title .title-brand {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.1;
+    color: #eae9dc;
+    word-wrap: break-word;
 }
 
 /* ==========================================================================
-   6. FOOTER
+   FOOTER
    ========================================================================== */
 .site-footer {
     position: fixed;
     bottom: 30px;
     left: 0;
     width: 100%;
-    z-index: 10;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
+    align-items: flex-end;
+    z-index: 100;
     pointer-events: none;
-    opacity: 0.55;
-    transition: opacity 0.4s ease;
 }
 
-.site-footer:hover {
-    opacity: 1;
-}
-
-.site-footer * {
+.footer-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
     pointer-events: auto;
 }
 
-.footer-desc {
-    font-size: 13px;
-    font-weight: 400;
-    color: #FDF0D5;
-    max-width: 380px;
+.footer-left .text {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.1;
+    text-transform: lowercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
+    color: #bb0000;
 }
 
-.footer-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #FDF0D5;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+.red-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #bb0000;
+    margin-bottom: 10px;
 }
 
-.footer-instagram:hover {
-    transform: translateY(-2px);
+.footer-right {
+    pointer-events: auto;
+}
+
+.copyright {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
     opacity: 0.8;
-}
-
-.footer-instagram svg {
-    display: block;
-}
-
-/* ==========================================================================
-   7. RESPONSIVO — MOBILE
-   ========================================================================== */
-@media (max-width: 768px) {
-
-    .logo-container {
-        top: 20px;
-    }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    .video-title {
-        font-size: 14px;
-        white-space: normal;
-        padding: 0 10px;
-        max-width: 90%;
-        gap: 6px;
-    }
-
-    .video-title .title-brand,
-    .video-title .title-sep,
-    .video-title .title-work {
-        font-size: 14px;
-    }
-
-    /* Scroll vertical */
-    html, body {
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        height: auto !important;
-    }
-
-    .gallery-container {
-        position: relative !important;
-        width: 100vw !important;
-        height: auto !important;
-        overflow: visible !important;
-    }
-
-    .gallery {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-    }
-
-    .gallery-item {
-        will-change: auto;
-    }
-
-    .site-footer {
-        position: relative;
-        bottom: auto;
-        margin-top: 60px;
-        flex-direction: column;
-        gap: 10px;
-        padding: 30px 20px;
-        text-align: center;
-    }
-
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
-    }
+    color: #bb0000;
 }

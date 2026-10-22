@@ -1,5 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
 
 * {
     margin: 0;
@@ -11,70 +11,77 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #eae9dc;
     font-family: 'General Sans', sans-serif;
-    color: #FDF0D5;
+    color: #bb0000;
     user-select: none;
     overscroll-behavior: none;
 }
 
 /* ==========================================================================
-   1. LOGO CENTRAL & NAVEGAÇÃO
+   NAV OVERLAY & TOP BAR
    ========================================================================== */
-.logo-container {
+.top-bar {
     position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1000;
+}
+
+.logo-container {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .logo-container:hover {
-    transform: translateX(-50%) scale(1.08);
+    transform: scale(1.05);
 }
 
 .logo-container img {
-    height: 60px;
+    height: 35px;
     width: auto;
     display: block;
-    filter: brightness(0) invert(1);
-    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
 }
 
-/* ==========================================================================
-   NAV OVERLAY
-   ========================================================================== */
+.home-link, .about-link {
+    font-family: 'General Sans', sans-serif;
+    color: #bb0000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.about-link {
+    text-transform: uppercase;
+}
+
 .nav-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    background: rgba(234, 233, 220, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-
-    transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0.5s;
-    z-index: 999;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
+    z-index: 9999;
 }
 
 .nav-overlay.is-open {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
-
-    transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
 }
 
 .nav-content {
@@ -85,36 +92,30 @@ html, body {
 }
 
 .nav-content a {
-    font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000;
     text-decoration: none;
     font-size: 24px;
-    letter-spacing: 0.5px;
-    text-transform: none;
-    opacity: 0.5;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
 }
 
 .nav-content a:hover,
 .nav-content a.active {
     opacity: 1;
-    transform: scale(1.05);
 }
 
-/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
     right: 50px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1001;
 }
 
 .nav-close:hover {
@@ -122,200 +123,179 @@ html, body {
     transform: rotate(90deg);
 }
 
-.nav-close svg {
-    display: block;
-}
-
 /* ==========================================================================
-   FILTROS
+   SIDE CALLOUTS
    ========================================================================== */
-.filters {
+.side-callout {
     position: fixed;
     top: 50%;
-    left: 50px;
     transform: translateY(-50%);
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.filter-btn {
-    background: none;
-    border: none;
-    color: #FDF0D5;
     font-family: 'General Sans', sans-serif;
     font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-align: left;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    padding: 0;
+    color: #bb0000;
+    z-index: 100;
+    pointer-events: none;
 }
 
-.filter-btn:hover {
-    opacity: 0.7;
-    transform: translateX(8px);
-}
-
-.filter-btn.active {
-    opacity: 1;
-    transform: translateX(8px);
-}
+.side-callout.left { left: 15vw; }
+.side-callout.right { right: 15vw; }
 
 /* ==========================================================================
-   GALERIA
+   SUBMENU DE DIRETORES
    ========================================================================== */
-.gallery-container {
+.directors-submenu {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: 1;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    z-index: 50;
+    background: transparent;
 }
 
-.gallery {
-    position: absolute;
-    top: 0;
-    left: 0;
+.director-link {
+    font-family: 'General Sans', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+    mix-blend-mode: difference; 
 }
 
-/* ==========================================================================
-   ITEM DA GALERIA
-   ========================================================================== */
-.gallery-item {
-    position: absolute;
-    overflow: hidden;
-    will-change: transform, opacity;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    background: #111;
-    cursor: pointer;
-}
-
-.gallery-item.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    transform: scale(0.9);
-}
-
-.gallery-item .poster-preview {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-    z-index: 1;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.gallery-item:hover .poster-preview {
+.director-link:hover {
+    color: #bb0000;
     transform: scale(1.05);
 }
 
 /* ==========================================================================
-   WRAPPER DO IFRAME DO VIMEO
+   FULLSCREEN SLIDER & VIDEO FIX
    ========================================================================== */
-.video-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.fullscreen-slider {
+    position: fixed;
+    inset: 0;
     background: #000;
-    z-index: 5;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
+    z-index: 10;
+    display: none;
+    overflow: hidden;
 }
 
-.video-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
+.fullscreen-slider.active {
     display: block;
 }
 
-/* ==========================================================================
-   TÍTULO — em linha única por padrão
-   ========================================================================== */
-.video-title {
+.slides-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    overflow: hidden;
+    background: #000;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 20;
+}
+
+.slide-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+/* Wrapper para o Iframe, com overflow garantido */
+.iframe-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+    background: #000;
+}
+
+/* O SEGREDO ESTÁ AQUI: O scale(1.05) amplia o vídeo, cortando as barras pretas */
+.iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover; 
+    transform: scale(1.45); 
+}
+
+/* Informação Central (Dir + Marca) */
+.slide-info {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    z-index: 10;
-    font-size: 20px;
-    letter-spacing: 0.5px;
-    color: #FDF0D5;
+    transform: translate(-50%, -50%);
     text-align: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    white-space: nowrap;
+    color: #ffffff;
+    z-index: 10;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: nowrap;
-}
-
-.video-title > * {
-    flex-shrink: 0;
-}
-
-.video-title .title-brand {
-    font-family: 'Harmattan', sans-serif;
-    font-weight: 500;
-    font-size: 26px;
-    color: #FDF0D5;
-    line-height: 1;
-}
-
-.video-title .title-sep {
-    font-family: 'General Sans', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    color: #FDF0D5;
-    opacity: 0.5;
-}
-
-.video-title .title-work {
-    font-family: 'General Sans', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    color: #FDF0D5;
-    opacity: 0.9;
-}
-
-.gallery-item:hover .video-title {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-/* ---- Caso não caiba numa linha: marca em cima, projeto em baixo ---- */
-.video-title.is-stacked {
     flex-direction: column;
-    gap: 4px;
-    white-space: normal;
-    max-width: 92%;
+    align-items: center;
+    pointer-events: none;
+    width: 90%;
 }
 
-.video-title.is-stacked .title-sep {
+.slide-info .dir-name {
+    font-family: 'General Sans', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.slide-info .brand-name {
+    font-family: 'General Sans', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* Setas de Navegação */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #bb0000;
+    cursor: pointer;
+    padding: 20px;
+    z-index: 100;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.left-arrow { left: 40px; }
+.right-arrow { right: 40px; }
+
+.nav-arrow.hidden {
     display: none;
-}
-
-.video-title.is-stacked .title-brand,
-.video-title.is-stacked .title-work {
-    font-size: 18px;
-    white-space: normal;
 }
 
 /* ==========================================================================
@@ -326,233 +306,36 @@ html, body {
     bottom: 30px;
     left: 0;
     width: 100%;
-    z-index: 10;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
+    align-items: flex-end;
+    z-index: 100;
     pointer-events: none;
-    opacity: 0.55;
-    transition: opacity 0.4s ease;
 }
 
-.site-footer:hover {
-    opacity: 1;
-}
-
-.site-footer * {
-    pointer-events: auto;
-}
-
-.footer-desc {
-    font-size: 13px;
-    font-weight: 400;
-    color: #FDF0D5;
-    max-width: 380px;
-}
-
-.footer-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #FDF0D5;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.footer-instagram:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
-}
-
-.footer-instagram svg {
-    display: block;
-}
-
-/* ==========================================================================
-   CALLOUT — "Call a Friend."
-   ========================================================================== */
-.filter-callout {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    color: #FDF0D5;
-    font-family: 'Harmattan', sans-serif;
-    font-size: 120px;          /* ← era 56px */
-    font-weight: 400;
-    white-space: nowrap;
-    text-align: center;
-
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* ==========================================================================
-   RESPONSIVO — MOBILE
-   ========================================================================== */
-@media (max-width: 768px) {
-
-    .logo-container {
-        top: 20px;
-    }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    .filters {
-        top: 80px;
-        left: 0;
-        right: 0;
-        transform: none;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 0 15px;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
-        padding-bottom: 20px;
-        z-index: 100;
-    }
-
-    .filter-btn {
-        font-size: 12px;
-        letter-spacing: 0.5px;
-        padding: 6px 12px;
-        border: 1px solid rgba(253, 240, 213, 0.15);
-        border-radius: 20px;
-        opacity: 0.6;
-    }
-
-    .filter-btn.active {
-        opacity: 1;
-        transform: none;
-        background: rgba(253, 240, 213, 0.08);
-        border-color: rgba(253, 240, 213, 0.4);
-    }
-
-    .video-title {
-        font-size: 14px;
-        white-space: normal;
-        padding: 0 10px;
-        max-width: 90%;
-        gap: 6px;
-    }
-
-    .video-title .title-brand {
-        font-size: 20px;
-    }
-
-    .video-title .title-sep,
-    .video-title .title-work {
-        font-size: 14px;
-    }
-
-    html, body {
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        height: auto !important;
-    }
-
-    .gallery-container {
-        position: relative !important;
-        width: 100vw !important;
-        height: auto !important;
-        overflow: visible !important;
-    }
-
-    .gallery {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-    }
-
-    .gallery-item {
-        will-change: auto;
-    }
-
-    .site-footer {
-        position: relative;
-        bottom: auto;
-        margin-top: 60px;
-        flex-direction: column;
-        gap: 10px;
-        padding: 30px 20px;
-        text-align: center;
-    }
-
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
-    }
-
-    .filter-callout {
-        font-size: 32px;
-    }
-}
-
-/* ==========================================================================
-   SUBMENU DE DIRETORES — sobre a galeria
-   ========================================================================== */
-.directors-submenu {
-    position: fixed;
-    inset: 0;
+.footer-left {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    z-index: 500;
-    padding: 0 40px;
-    background: rgba(0, 0, 0, 0.7);   /* ← era 0.35 */
-    backdrop-filter: blur(4px);        /* ← era 2px */
-    transition: opacity 0.4s ease;
+    align-items: flex-end;
+    gap: 15px;
 }
 
-.director-link {
-    font-family: 'General Sans', sans-serif;
-    font-weight: regular;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    color: #FDF0D5;
-    text-decoration: none;
-    text-transform: none;
-    opacity: 0.45;
-    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    text-align: center;
-    line-height: 1.05;
-    cursor: pointer;
+.footer-left .text {
+    font-size: 12px;
+    line-height: 1.1;
+    text-transform: lowercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
 }
 
-.director-link:hover {
-    opacity: 1;
-    transform: scale(1.06);
+.red-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #bb0000;
+    margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-    .directors-submenu {
-        gap: 24px;
-        padding: 0 20px;
-    }
-
-    .director-link {
-        font-size: clamp(1.8rem, 9vw, 3rem);
-    }
+.copyright {
+    font-size: 12px;
+    opacity: 0.8;
 }

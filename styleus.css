@@ -11,60 +11,77 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #eae9dc; /* Fundo creme */
     font-family: 'General Sans', sans-serif;
-    color: #FDF0D5;
+    color: #bb0000; /* Texto vermelho */
     user-select: none;
     overscroll-behavior: none;
 }
 
 /* ==========================================================================
-   1. LOGO CENTRAL & NAVEGAÇÃO
+   NAV OVERLAY & TOP BAR
    ========================================================================== */
-.logo-container {
+.top-bar {
     position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1000;
+}
+
+.logo-container {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .logo-container:hover {
-    transform: translateX(-50%) scale(1.08);
+    transform: scale(1.05);
 }
 
 .logo-container img {
-    height: 60px;
+    height: 35px;
     width: auto;
     display: block;
-    filter: brightness(0) invert(1);
-    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
 }
 
-/* ==========================================================================
-   NAV OVERLAY
-   ========================================================================== */
+.home-link, .about-link {
+    font-family: 'General Sans', sans-serif;
+    color: #bb0000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.about-link {
+    text-transform: uppercase;
+}
+
 .nav-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
+    inset: 0;
+    background: rgba(234, 233, 220, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
+    opacity: 0;
+    pointer-events: none;
     visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s ease;
-    z-index: 999;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
+    z-index: 9999;
 }
 
 .nav-overlay.is-open {
     opacity: 1;
+    pointer-events: auto;
     visibility: visible;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
 }
 
 .nav-content {
@@ -75,36 +92,30 @@ html, body {
 }
 
 .nav-content a {
-    font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000;
     text-decoration: none;
     font-size: 24px;
-    letter-spacing: 0.5px;
-    text-transform: none;
-    opacity: 1;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
 }
 
 .nav-content a:hover,
 .nav-content a.active {
     opacity: 1;
-    transform: scale(1.05);
 }
 
-/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
     right: 50px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 1001;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .nav-close:hover {
@@ -112,29 +123,21 @@ html, body {
     transform: rotate(90deg);
 }
 
-.nav-close svg {
-    display: block;
-}
-
-
 /* ==========================================================================
-   2. CONTEÚDO ABOUT US — TEXTO CENTRALIZADO
+   CONTEÚDO ABOUT US
    ========================================================================== */
 .us-content {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 160px 60px 100px;
+    padding: 120px 60px 100px;
     overflow-y: auto;
-    gap: 60px;
+    gap: 40px;
 }
 
 .us-header {
@@ -147,10 +150,9 @@ html, body {
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.03em;
-    color: #FDF0D5;
+    color: #bb0000;
 }
 
-/* Container do texto único, centrado */
 .us-text-block {
     display: flex;
     flex-direction: column;
@@ -165,103 +167,16 @@ html, body {
     font-size: 17px;
     font-weight: 400;
     line-height: 1.7;
-    color: #FDF0D5;
+    color: #bb0000;
     opacity: 0.85;
 }
 
-/* Tagline final — "LIVING IS DANGEROUS, CALL A FRIEND." */
 .us-tagline {
-    font-weight: regular;
-    font-size: 18px;
-    margin-top: 20px;
+    font-family: 'Harmattan', sans-serif;
+    font-size: 32px;
+    margin-top: 10px;
+    color: #bb0000;
     opacity: 1;
-    color: #FDF0D5;
-}
-
-/* ==========================================================================
-   3. FOOTER
-   ========================================================================== */
-.site-footer {
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-    pointer-events: none;
-    opacity: 0.55;
-    transition: opacity 0.4s ease;
-}
-
-.site-footer:hover {
-    opacity: 1;
-}
-
-.site-footer * {
-    pointer-events: auto;
-}
-
-.footer-desc {
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: #FDF0D5;
-    max-width: 380px;
-}
-
-.footer-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #FDF0D5;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.footer-instagram:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
-}
-
-.footer-instagram svg {
-    display: block;
-}
-
-/* ==========================================================================
-   4. RESPONSIVO
-   ========================================================================== */
-@media (max-width: 768px) {
-    .us-content {
-        padding: 140px 30px 100px;
-        gap: 40px;
-    }
-
-    .us-title {
-        font-size: clamp(3.5rem, 16vw, 7rem);
-    }
-
-    .us-text {
-        font-size: 15px;
-    }
-
-    .us-tagline {
-        font-size: 16px;
-    }
-
-    .site-footer {
-        flex-direction: column;
-        gap: 10px;
-        padding: 0 20px;
-        text-align: center;
-    }
 }
 
 /* Scrollbar minimalista */
@@ -274,60 +189,97 @@ html, body {
 }
 
 .us-content::-webkit-scrollbar-thumb {
-    background: rgba(253, 240, 213, 0.15);
+    background: rgba(187, 0, 0, 0.2);
     border-radius: 2px;
 }
 
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.footer-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.footer-left .text {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.1;
+    text-transform: lowercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
+    color: #bb0000;
+}
+
+.red-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #bb0000;
+    margin-bottom: 10px;
+}
+
+.footer-right {
+    pointer-events: auto;
+}
+
+.copyright {
+    font-family: 'General Sans', sans-serif;
+    font-size: 12px;
+    opacity: 0.8;
+    color: #bb0000;
+}
+
+/* ==========================================================================
+   RESPONSIVO (MOBILE)
+   ========================================================================== */
 @media (max-width: 768px) {
     .us-content {
-        padding: 120px 24px 80px;
-        gap: 40px;
+        padding: 100px 24px 120px; /* Mais espaço em baixo para o rodapé */
         justify-content: flex-start;
-        overflow-y: auto;
+        gap: 30px;
     }
 
     .us-title {
-        font-size: clamp(3rem, 16vw, 6rem);
+        font-size: clamp(3.5rem, 16vw, 7rem);
     }
 
     .us-text {
-        font-size: 14px;
-    }
-
-    .us-tagline {
         font-size: 15px;
     }
 
-    /* Logo e nav */
-    .logo-container {
-        top: 20px;
+    .us-tagline {
+        font-size: 24px;
     }
 
-    .logo-container img {
-        height: 42px;
-    }
-
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    /* Footer */
     .site-footer {
         bottom: 15px;
         flex-direction: column;
-        gap: 8px;
+        align-items: flex-start;
+        gap: 15px;
         padding: 0 20px;
-        text-align: center;
     }
 
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
+    .footer-left .text,
+    .copyright {
+        font-size: 10px;
+    }
+    
+    .red-line {
+        width: 40px;
     }
 }

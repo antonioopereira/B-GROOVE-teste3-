@@ -1,40 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ==========================================
-    // DETEÇÃO DE MOBILE
-    // ==========================================
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    // ==========================================
-    // NAVEGAÇÃO
-    // ==========================================
+    // NAV
     const logoToggle = document.getElementById("logo-toggle");
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
     logoToggle.addEventListener("click", () => {
-    if (navOverlay.classList.contains("is-open")) {
-        navOverlay.classList.remove("is-open");
-    } else {
-        navOverlay.classList.add("is-open");
-    }
+        navOverlay.classList.toggle("is-open");
     });
 
     navClose.addEventListener("click", () => {
         navOverlay.classList.remove("is-open");
     });
 
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            navOverlay.classList.remove("is-open");
-        }
-    });
-
     const filterCallout = document.getElementById("filter-callout");
 
-    // ==========================================
     // DADOS DAS FOTOGRAFIAS
-    // ==========================================
     const photoData = [
         { src: "images/thais-vandanezi/imagem-01.webp", photographer: "thais-vandanezi" },
         { src: "images/thais-vandanezi/imagem-02.webp", photographer: "thais-vandanezi" },
@@ -59,19 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const gallery = document.getElementById("gallery");
-    const filterButtons = document.querySelectorAll(".filter-btn");
 
-    // ==========================================
     // ÁREA VIRTUAL — 2 fileiras visíveis
-    // ==========================================
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
     const ROWS = 2;
     const VIRTUAL_H = vh;
     const ROW_HEIGHT = VIRTUAL_H / ROWS;
-
-    // ---- Aumentei o BASE_FILL para imagens maiores ----
     const BASE_FILL = 0.92;
 
     const MARGIN_X = vw * 0.2;
@@ -110,18 +86,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const items = [];
 
-    // ==========================================
     // Posições X
-    // ==========================================
     const xPositions = new Array(photoData.length);
-
     rowAssignments.forEach((indices) => {
         const contentW = indices.reduce((s, i) => s + assignedWidths[i], 0);
         const availableSpace = VIRTUAL_W - contentW - 2 * MARGIN_X;
-        const gap = indices.length > 1
-            ? availableSpace / (indices.length - 1)
-            : 0;
-
+        const gap = indices.length > 1 ? availableSpace / (indices.length - 1) : 0;
         let x = MARGIN_X;
         indices.forEach((dataIndex) => {
             xPositions[dataIndex] = x;
@@ -129,9 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ==========================================
     // LIGHTBOX
-    // ==========================================
     function openLightbox(src) {
         const lb = document.createElement("div");
         lb.className = "lightbox";
@@ -177,9 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(lb);
     }
 
-    // ==========================================
     // CRIAÇÃO DOS ITENS
-    // ==========================================
     photoData.forEach((data, i) => {
         const row = i % ROWS;
         const item = document.createElement("div");
@@ -233,9 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gallery.appendChild(item);
     });
 
-    // ==========================================
     // LIMITES DO SCROLL — só horizontal
-    // ==========================================
     const MIN_PAN_X = -(VIRTUAL_W - vw);
     const MAX_PAN_X = 0;
     const MIN_PAN_Y = 0;
@@ -299,11 +263,9 @@ document.addEventListener("DOMContentLoaded", () => {
         isTouching = false;
     });
 
-    // ==========================================
     // LOOP
-    // ==========================================
     function loop() {
-        const smooth = isMobile ? 0.12 : 0.08;
+        const smooth = 0.08;
 
         currentPanX += (targetPanX - currentPanX) * smooth;
         currentPanY += (targetPanY - currentPanY) * smooth;
@@ -315,45 +277,5 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(loop);
     }
     loop();
-
-    // ==========================================
-    // FILTROS
-    // ==========================================
-    filterButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            filterButtons.forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
-
-            const filter = btn.dataset.filter;
-
-            items.forEach((item) => {
-                const photographer = item.element.dataset.photographer;
-                if (filter === "all" || photographer === filter) {
-                    item.element.classList.remove("hidden");
-                } else {
-                    item.element.classList.add("hidden");
-                }
-            });
-
-            if (filterCallout) {
-                gsap.killTweensOf(filterCallout);
-
-                if (filter === "all") {
-                    gsap.to(filterCallout, {
-                        opacity: 0,
-                        duration: 0.3,
-                        ease: "power2.in",
-                        onComplete: () => { filterCallout.textContent = ""; }
-                    });
-                } else {
-                    filterCallout.textContent = "Call a Friend";
-                    gsap.fromTo(filterCallout,
-                        { opacity: 0 },
-                        { opacity: 1, duration: 0.7, delay: 0.3, ease: "power2.out" }
-                    );
-                }
-            }
-        });
-    });
 
 });

@@ -1,268 +1,244 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ==========================================
-    // NAVEGAÇÃO
-    // ==========================================
+    // NAV
     const logoToggle = document.getElementById("logo-toggle");
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
     logoToggle.addEventListener("click", () => {
-        if (navOverlay.classList.contains("is-open")) {
-            navOverlay.classList.remove("is-open");
-        } else {
-            navOverlay.classList.add("is-open");
-        }
+        navOverlay.classList.toggle("is-open");
     });
 
     navClose.addEventListener("click", () => {
         navOverlay.classList.remove("is-open");
     });
 
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            navOverlay.classList.remove("is-open");
-        }
-    });
-
-    // ==========================================
-    // TÚNEL 3D — CONFIGURAÇÕES
-    // ==========================================
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    const config = {
-        totalImages: isMobile ? 10 : 15,
-        gap: isMobile ? 500 : 800,
-        speed: isMobile ? 1.2 : 1.5,
-        lerp: 0.08,
-        exitPoint: isMobile ? 400 : 600,
-        curveFactor: 0.18,
-        lazyLoadZ: -2500   // distância a que se começa a carregar o iframe
+    // MAPEAMENTO DOS DIRETORES
+    const directorNames = {
+        "andre-chitas": "André Chitas",
+        "goncalo-xz": "Gonçalo Xz",
+        "ines-monteiro": "Inês Monteiro"
     };
 
-    // ==========================================
-    // DADOS + SHUFFLE
-    // ==========================================
-    const rawData = [
+    // DADOS DOS VÍDEOS
+    const videoData = [
         { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
-        { id: "1228562721", brand: "BIS", title: "Projeto 02", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
-        { id: "951206599",  brand: "Marca C", title: "Projeto 03", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
-        { id: "1228563134", brand: "Marca D", title: "Projeto 04", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-11.webp" },
-        { id: "1229244984", brand: "Marca E", title: "Projeto 05", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
-        { id: "951206509",  brand: "Marca F", title: "Projeto 06", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
-        { id: "953718810",  brand: "Marca G", title: "Projeto 07", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-05.webp" },
-        { id: "955961149",  brand: "Marca H", title: "Projeto 08", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-06.webp" },
-        { id: "951206647",  brand: "Marca I", title: "Projeto 09", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-09.webp" },
-        { id: "1064109149", brand: "Marca J", title: "Projeto 10", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
-        { id: "951206473",  brand: "Marca K", title: "Projeto 11", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
-        { id: "1075350120", brand: "Marca L", title: "Projeto 12", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
-        { id: "951206549",  brand: "Marca Y", title: "Projeto 25", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-12.webp" },
-        { id: "1229250084", brand: "Marca Z", title: "Projeto 26", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
-
-        { id: "1220816532", brand: "Marca M", title: "Projeto 13", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
-        { id: "1220821289", brand: "Marca N", title: "Projeto 14", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
-        { id: "1220828316", brand: "Marca O", title: "Projeto 15", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
-        { id: "1229158772", brand: "Marca P", title: "Projeto 16", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-15.webp" },
-        { id: "1220835706", brand: "Marca Q", title: "Projeto 17", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
-        { id: "1220831743", brand: "Marca R", title: "Projeto 18", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
+        { id: "1228562721", brand: "BIS", title: "Rh", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
+        { id: "951206599",  brand: "KitKat", title: "The Town", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-03.webp" },
+        { id: "1228563134", brand: "BIS", title: "Interceptação", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-11.webp" },
+        { id: "1229244984", brand: "Guaraná", title: "Mãozinha", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-13.webp" },
+        { id: "951206509",  brand: "Cobasi", title: "Pets", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-04.webp" },
+        { id: "953718810",  brand: "Toyota", title: "Design", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-05.webp" },
+        { id: "955961149",  brand: "Toyota", title: "Music", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-06.webp" },
+        { id: "951206549",  brand: "Havaianas", title: "Pegada", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-12.webp" },
+        { id: "951206647",  brand: "Ampara Animal", title: "Life Print", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-09.webp" },
+        { id: "1229250084", brand: "Disney", title: "Disney+", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-14.webp" },
+        { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
+        { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
+        { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
+        { id: "1220816532", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
+        { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
         { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-a.webp" },
+        { id: "1220828316", brand: "Conan Osíris", title: "Moleirinha", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
         { id: "1231970301", brand: "SlowJ feat. GSon & Mizzy Miles", title: "Champions-League", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-b.webp" },
+        { id: "1229158772", brand: "Mizzy Miles feat. T Rex & Zara G", title: "Fim do Nada", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-15.webp" },
+        { id: "1220835706", brand: "SlowJ", title: "Where u @", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
+        { id: "1220831743", brand: "Project x", title: "Ghuettop", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
         { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-c.webp" },
-
-        { id: "1228567548", brand: "Marca S", title: "Projeto 19", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
-        { id: "1229123992", brand: "Marca T", title: "Projeto 20", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
-        { id: "1229125856", brand: "Marca U", title: "Projeto 21", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
-        { id: "1229127014", brand: "Marca V", title: "Projeto 22", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
-        { id: "1229127593", brand: "Marca W", title: "Projeto 23", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
-        { id: "1229129641", brand: "Marca X", title: "Projeto 24", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
+        { id: "1228567548", brand: "Mar", title: "Sem Carta", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
+        { id: "1229123992", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
+        { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
+        { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
+        { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
+        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
-    const mediaData = [...rawData];
-    for (let i = mediaData.length - 1; i > 0; i--) {
+    // Shuffle
+    for (let i = videoData.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [mediaData[i], mediaData[j]] = [mediaData[j], mediaData[i]];
+        [videoData[i], videoData[j]] = [videoData[j], videoData[i]];
     }
 
-    // ==========================================
-    // CRIAÇÃO DOS CARTÕES
-    // ==========================================
-    const tunnelScene = document.getElementById("tunnel-scene");
-    const cards = [];
-    const tunnelDepth = config.totalImages * config.gap;
-    const visibleDepth = 4 * config.gap;
+    const track = document.getElementById("carousel-track");
+    const prevBtn = document.getElementById("carousel-prev");
+    const nextBtn = document.getElementById("carousel-next");
 
-    for (let i = 0; i < config.totalImages; i++) {
-        const data = mediaData[i];
-        const videoId = data.id;
+    const items = [];
+    const fragment = document.createDocumentFragment();
+    
+    // Controlo do vídeo ativo (Apenas um de cada vez)
+    let activeItem = null;
 
-        const card = document.createElement("div");
-        card.classList.add("video-card");
+    videoData.forEach((data) => {
+        const item = document.createElement("div");
+        item.classList.add("carousel-item");
 
         // Miniatura
-        const thumbnailUrl = data.Thumb || `https://vumbnail.com/${videoId}.jpg`;
+        const thumbnailUrl = data.Thumb || `https://vumbnail.com/${data.id}.jpg`;
         const img = document.createElement("img");
         img.src = thumbnailUrl;
-        img.alt = `Vídeo ${i + 1}`;
+        img.alt = data.brand;
         img.classList.add("poster-preview");
         img.loading = "lazy";
+        item.appendChild(img);
 
-        img.onerror = () => {
-            console.error("❌ Falhou miniatura:", thumbnailUrl);
-            img.style.background = "#222";
-        };
-
-        card.appendChild(img);
-
-        // Wrapper do iframe
+        // Wrapper Vimeo (Lazy Load)
         const wrapper = document.createElement("div");
         wrapper.classList.add("video-wrapper");
-        card.appendChild(wrapper);
+        item.appendChild(wrapper); 
 
-        tunnelScene.appendChild(card);
+        // Título - FORMATO: Dir em cima, Marca - Projeto em baixo
+        const titleEl = document.createElement("div");
+        titleEl.classList.add("video-title");
+        const dirName = directorNames[data.director] || data.director;
+        
+        const projectName = data.title ? `${data.brand} - ${data.title}` : data.brand;
+        
+        titleEl.innerHTML = `
+            <div class="dir-info">Dir.<br>${dirName}</div>
+            <div class="brand-info">${projectName}</div>
+        `;
+        item.appendChild(titleEl);
 
-        cards.push({
-            element: card,
-            wrapper: wrapper,
-            videoId: videoId,
-            baseZ: -i * config.gap,
-            currentZ: -i * config.gap,
-            iframeLoaded: false,
-            iframe: null
+        // HOVER: Garante que apenas um carrega
+        item.addEventListener("mouseenter", () => {
+            if (activeItem && activeItem !== item) {
+                const prevWrapper = activeItem.querySelector('.video-wrapper');
+                if (prevWrapper) prevWrapper.innerHTML = "";
+            }
+            
+            activeItem = item;
+
+            if (wrapper.children.length === 0) {
+                const iframe = document.createElement("iframe");
+                iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0&autopause=0`;
+                iframe.setAttribute("frameborder", "0");
+                iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+                wrapper.appendChild(iframe);
+            }
         });
-    }
+
+        // MOUSE LEAVE
+        item.addEventListener("mouseleave", () => {
+            setTimeout(() => {
+                if (!item.matches(':hover')) {
+                    wrapper.innerHTML = "";
+                    if (activeItem === item) activeItem = null;
+                }
+            }, 300); 
+        });
+
+        fragment.appendChild(item);
+        items.push(item);
+    });
+
+    track.appendChild(fragment);
 
     // ==========================================
-    // LAZY LOAD DO IFRAME
+    // LÓGICA DO CARROSSEL INFINITO
     // ==========================================
-    function loadIframe(cardObj) {
-        if (cardObj.iframeLoaded) return;
-
-        const iframe = document.createElement("iframe");
-        // ✅ background=1 → autoplay muted em loop (removido autoplay=0)
-        iframe.src = `https://player.vimeo.com/video/${cardObj.videoId}?background=1&loop=1&muted=1&api=1`;
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-        iframe.setAttribute("allowfullscreen", "");
-
-        cardObj.wrapper.appendChild(iframe);
-        cardObj.iframe = iframe;
-        cardObj.iframeLoaded = true;
-
-        console.log("📥 Iframe carregado:", cardObj.videoId);
-    }
-
-    // ==========================================
-    // SCROLL
-    // ==========================================
-    let targetScroll = 0;
     let currentScroll = 0;
+    let targetScroll = 0;
+    let isDragging = false;
+    let startX = 0;
+    let scrollStart = 0;
+    
+    // DISTÂNCIA ENTRE CENTROS (0.20 = Muita sobreposição, cabem 5 cards)
+    let step = window.innerWidth * 0.20; 
 
-    window.addEventListener("wheel", (e) => {
-        if (e.target.closest(".nav-overlay")) return;
+    function snapToNearest() {
+        targetScroll = Math.round(targetScroll / step) * step;
+    }
+
+    // Scroll do rato
+    track.addEventListener("wheel", (e) => {
         e.preventDefault();
-        targetScroll += e.deltaY * config.speed;
+        targetScroll += e.deltaY * 1.5;
+        
+        clearTimeout(window._wheelTimeout);
+        window._wheelTimeout = setTimeout(snapToNearest, 100);
     }, { passive: false });
 
-    let touchStartY = 0;
-    window.addEventListener("touchstart", (e) => {
-        touchStartY = e.touches[0].clientY;
+    // Touch (mobile)
+    track.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        scrollStart = targetScroll;
+        clearTimeout(window._wheelTimeout);
     }, { passive: true });
 
-    window.addEventListener("touchmove", (e) => {
-        const touchY = e.touches[0].clientY;
-        const deltaY = touchStartY - touchY;
-        targetScroll += deltaY * config.speed * 2;
-        touchStartY = touchY;
+    track.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        const dx = e.touches[0].clientX - startX;
+        targetScroll = scrollStart - dx * 2;
     }, { passive: true });
 
-    // ==========================================
-    // OPACIDADE
-    // ==========================================
-    function calculateOpacity(z) {
-        if (z > config.exitPoint) return 0;
-        if (z > 0) {
-            const fadeOutStart = config.exitPoint * 0.4;
-            if (z < fadeOutStart) return 1;
-            return 1 - ((z - fadeOutStart) / (config.exitPoint - fadeOutStart));
+    track.addEventListener("touchend", () => {
+        isDragging = false;
+        snapToNearest();
+    });
+
+    // Botões
+    prevBtn.addEventListener("click", () => {
+        snapToNearest();
+        targetScroll -= step;
+    });
+    
+    nextBtn.addEventListener("click", () => {
+        snapToNearest();
+        targetScroll += step;
+    });
+
+    // Resize
+    window.addEventListener('resize', () => {
+        step = window.innerWidth * 0.20;
+    });
+
+    // Loop de animação
+    function render() {
+        currentScroll += (targetScroll - currentScroll) * 0.08;
+        
+        const n = items.length;
+        const T = n * step;
+
+        if (Math.abs(currentScroll) > T * 10) {
+            const shift = Math.floor(currentScroll / T) * T;
+            currentScroll -= shift;
+            targetScroll -= shift;
         }
-        if (z > -visibleDepth) {
-            const fadeInEnd = -visibleDepth + 400;
-            if (z > fadeInEnd) return 1;
-            return 1 - ((fadeInEnd - z) / 400);
-        }
-        return 0;
+
+        items.forEach((item, i) => {
+            let x = (i * step) - currentScroll;
+            
+            // Loop infinito
+            x = ((x + T / 2) % T + T) % T - T / 2;
+
+            const absX = Math.abs(x);
+            const norm = absX / step; 
+            
+            // Mostra EXATAMENTE 5 cards: Central (0), 2 à esquerda (-2, -1) e 2 à direita (1, 2)
+            // Qualquer coisa acima de 2.1 é escondida.
+            if (norm > 2.1) {
+                item.style.display = 'none'; 
+            } else {
+                item.style.display = 'block';
+                
+                // Escala (1 no centro, 0.75 e 0.50 nos lados)
+                const scale = Math.max(0.5, 1 - (norm * 0.25));
+                
+                // Z-index garante que o do centro fica por cima dos outros
+                const zIndex = Math.round(100 - norm * 10);
+
+                // OPACIDADE 100% PARA TODOS
+                item.style.opacity = 1; 
+                
+                item.style.transform = `translate(-50%, -50%) translateX(${x}px) scale(${scale})`;
+                item.style.zIndex = zIndex;
+            }
+        });
+        
+        requestAnimationFrame(render);
     }
-
-    // ==========================================
-    // LOOP
-    // ==========================================
-    gsap.ticker.add(() => {
-        currentScroll += (targetScroll - currentScroll) * config.lerp;
-
-        cards.forEach((cardObj) => {
-            let z = cardObj.baseZ + currentScroll;
-
-            if (z > config.exitPoint) {
-                const offset = Math.ceil((z - config.exitPoint) / tunnelDepth) * tunnelDepth;
-                cardObj.baseZ -= offset;
-                z = cardObj.baseZ + currentScroll;
-            }
-
-            // Lazy load
-            if (!cardObj.iframeLoaded && z > config.lazyLoadZ) {
-                loadIframe(cardObj);
-            }
-
-            const opacity = calculateOpacity(z);
-            const yOffset = z * config.curveFactor;
-            const rotX = -(z / tunnelDepth) * 25;
-
-            gsap.set(cardObj.element, {
-                z: z,
-                y: yOffset,
-                rotationX: rotX,
-                opacity: opacity,
-                force3D: true,
-                visibility: (opacity <= 0.01) ? "hidden" : "visible"
-            });
-        });
-    });
-
-    // ==========================================
-    // HOVER — play / pause
-    // ==========================================
-    cards.forEach((cardObj) => {
-        cardObj.element.addEventListener("mouseenter", () => {
-            loadIframe(cardObj);
-
-            gsap.to(cardObj.wrapper, {
-                opacity: 1,
-                duration: 0.4,
-                ease: "power2.out"
-            });
-
-            if (cardObj.iframe) {
-                cardObj.iframe.contentWindow.postMessage(
-                    JSON.stringify({ method: "play" }),
-                    "*"
-                );
-            }
-        });
-
-        cardObj.element.addEventListener("mouseleave", () => {
-            gsap.to(cardObj.wrapper, {
-                opacity: 0,
-                duration: 0.3,
-                ease: "power2.in"
-            });
-
-            if (cardObj.iframe) {
-                cardObj.iframe.contentWindow.postMessage(
-                    JSON.stringify({ method: "pause" }),
-                    "*"
-                );
-            }
-        });
-    });
-
+    
+    requestAnimationFrame(render);
 });

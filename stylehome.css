@@ -11,36 +11,11 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #eae9dc;
     font-family: 'General Sans', sans-serif;
-    color: #FDF0D5;
+    color: #bb0000;
     user-select: none;
     overscroll-behavior: none;
-}
-
-/* ==========================================================================
-   1. LOGO CENTRAL & NAVEGAÇÃO
-   ========================================================================== */
-.logo-container {
-    position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.logo-container:hover {
-    transform: translateX(-50%) scale(1.08);
-}
-
-.logo-container img {
-    height: 60px;
-    width: auto;
-    display: block;
-    filter: brightness(0) invert(1);
-    opacity: 1;
 }
 
 /* ==========================================================================
@@ -48,21 +23,16 @@ html, body {
    ========================================================================== */
 .nav-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    background: rgba(234, 233, 220, 0.92);
+    backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
+    opacity: 0;
     pointer-events: none;
     visibility: hidden;
-
-    transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0.5s;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
     z-index: 999;
 }
 
@@ -70,10 +40,7 @@ html, body {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
-
-    transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
 }
 
 .nav-content {
@@ -84,14 +51,12 @@ html, body {
 }
 
 .nav-content a {
-    font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #FDF0D5;
+    color: #bb0000;
     text-decoration: none;
     font-size: 24px;
     letter-spacing: 0.5px;
-    text-transform: none;
-    opacity: 1;
+    opacity: 0.6;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -101,19 +66,17 @@ html, body {
     transform: scale(1.05);
 }
 
-/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
     right: 50px;
     background: none;
     border: none;
-    color: #FDF0D5;
+    color: #bb0000;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1001;
 }
 
 .nav-close:hover {
@@ -125,175 +88,92 @@ html, body {
     display: block;
 }
 
-.filters {
+/* ==========================================================================
+   TOP BAR (Apenas Logo Central)
+   ========================================================================== */
+.top-bar {
     position: fixed;
-    top: 50%;
-    left: 50px;
-    transform: translateY(-50%);
-    z-index: 100;
+    top: 30px;
+    left: 0;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
 }
 
-.filter-btn {
-    background: none;
-    border: none;
-    color: #FDF0D5;
-    font-family: 'General Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-align: left;
+.logo-container {
     cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    padding: 0;
+    transition: transform 0.3s ease;
+    pointer-events: auto;
 }
 
-.filter-btn:hover {
-    opacity: 0.7;
-    transform: translateX(8px);
+.logo-container:hover {
+    transform: scale(1.05);
 }
 
-.filter-btn.active {
-    opacity: 1;
-    transform: translateX(8px);
+.logo-container img {
+    height: 50px;
+    width: auto;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
 }
 
 /* ==========================================================================
-   2. TIPOGRAFIA DE FUNDO
+   CARROSSEL INFINITO
    ========================================================================== */
-.bg-text-wrapper {
+.carousel-viewport {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 10;
 }
 
-.bg-word {
+.carousel-track {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    font-family: 'Harmattan', sans-serif;
-    font-weight: 400;
-    color: #FDF0D5;
-    letter-spacing: -0.05em;
-    line-height: 0.9;
-    white-space: nowrap;
-    pointer-events: none;
-    text-align: center;
-}
-
-.phrase-1 {
-    top: 20vh;
-    font-size: 140px;
-    animation: fadeInOutFirst 20s infinite ease-in-out;
-}
-
-.phrase-2 {
-    bottom: 18vh;
-    font-size: 300px;
-    animation: fadeInOutSecond 20s infinite ease-in-out;
-}
-
-.phrase-3 {
-    bottom: 5vh;
-    font-weight: 400;
-    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
-    opacity: 0;
-    animation: fadeInOutThird 20s infinite ease-in-out;
-}
-
-@keyframes fadeInOutFirst {
-    0%   { opacity: 0; }
-    20%  { opacity: 1; }
-    75%  { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-@keyframes fadeInOutSecond {
-    0%   { opacity: 0; }
-    20%  { opacity: 0; }
-    40%  { opacity: 1; }
-    75%  { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-@keyframes fadeInOutThird {
-    0%   { opacity: 0.5; }
-    50%  { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-/* ==========================================================================
-   3. TÚNEL 3D
-   ========================================================================== */
-.tunnel-viewport {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    perspective: 1200px;
-    perspective-origin: 50% 50%;
+    inset: 0;
     overflow: hidden;
-    z-index: 1;
 }
 
-.tunnel-scene {
+.carousel-item {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
-}
-
-.video-card {
-    position: absolute;
-    width: 500px;
-    height: 281px;
-    margin-left: -250px;
-    margin-top: -140.5px;
-    background: #111;
-    overflow: hidden;
-    transform-style: preserve-3d;
+    width: 50vw;          
+    aspect-ratio: 16 / 9;
+    transform-origin: center center;
     will-change: transform, opacity;
-    backface-visibility: hidden;
+    background: #000;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-.video-card .poster-preview {
+.carousel-item .poster-preview {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     pointer-events: none;
-    z-index: 1;
 }
 
-.video-card .video-wrapper {
+.carousel-item .video-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: #000;
     z-index: 5;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
-.video-card .video-wrapper iframe {
+.carousel-item:hover .video-wrapper {
+    opacity: 1;
+}
+
+.carousel-item .video-wrapper iframe {
     width: 100%;
     height: 100%;
     border: 0;
@@ -301,114 +181,176 @@ html, body {
 }
 
 /* ==========================================================================
-   4. FOOTER
+   INFORMAÇÃO DO VÍDEO (HOVER)
+   ========================================================================== */
+.carousel-item .video-title {
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
+    z-index: 10;
+    color: #ffffff; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(10px);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    max-width: 85%;
+}
+
+.carousel-item:hover .video-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.carousel-item .dir-info {
+    font-family: 'General Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: 400;
+    text-transform: none;
+    opacity: 0.9;
+}
+
+.carousel-item .brand-info {
+    font-family: 'General Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    word-wrap: break-word;
+}
+
+/* ==========================================================================
+   SETAS DO CARROSSEL
+   ========================================================================== */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: none;
+    border: none;
+    color: #bb0000;
+    cursor: pointer;
+    padding: 20px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn--prev { left: 40px; }
+.carousel-btn--next { right: 40px; }
+
+/* ==========================================================================
+   FOOTER
    ========================================================================== */
 .site-footer {
     position: fixed;
     bottom: 30px;
     left: 0;
     width: 100%;
-    z-index: 10;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
+    align-items: flex-end;
+    z-index: 100;
     pointer-events: none;
-    opacity: 0.55;
-    transition: opacity 0.4s ease;
 }
 
-.site-footer:hover {
-    opacity: 1;
+.site-footer * { pointer-events: auto; }
+
+.footer-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
 }
 
-.site-footer * {
-    pointer-events: auto;
+.footer-left .text {
+    font-size: 12px;
+    line-height: 1.1;
+    text-transform: lowercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 2px;
 }
 
-.footer-desc {
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
+.red-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #bb0000;
+    margin-bottom: 10px;
+}
+
+.footer-right {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    position: relative;
+    padding-right: 30px;
+}
+
+.footer-right .living-text {
+    font-size: 20px;
     font-weight: 400;
-    color: #FDF0D5;
-    max-width: 380px;
 }
 
-.footer-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #FDF0D5;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+.footer-right .call-friend {
+    font-family: 'Harmattan', sans-serif;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 0.7;
 }
 
-.footer-instagram:hover {
-    transform: translateY(-2px);
+.footer-right .copyright {
+    position: absolute;
+    bottom: -15px;
+    right: 0;
+    font-size: 10px;
     opacity: 0.8;
 }
 
-.footer-instagram svg {
-    display: block;
-}
-
 /* ==========================================================================
-   MOBILE — HOME
+   MOBILE
    ========================================================================== */
 @media (max-width: 768px) {
+    .top-bar { top: 20px; }
+    .logo-container img { height: 35px; }
 
-    .phrase-1,
-    .phrase-2 {
-        display: none !important;
-    }
+    .carousel-item { width: 80vw; }
 
-    .phrase-3 {
-        bottom: 8vh !important;
-        font-size: 0.9rem !important;
-        letter-spacing: 0.15em !important;
-        opacity: 0.7 !important;
-    }
+    .carousel-btn { padding: 10px; }
+    .carousel-btn--prev { left: 10px; }
+    .carousel-btn--next { right: 10px; }
 
-    .video-card {
-        width: 280px !important;
-        height: 157.5px !important;
-        margin-left: -140px !important;
-        margin-top: -78.75px !important;
+    .carousel-item .video-title {
+        bottom: 15px;
+        left: 15px;
     }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .logo-container {
-        top: 20px;
-    }
+    
+    .carousel-item .dir-info { font-size: 12px; }
+    .carousel-item .brand-info { font-size: 18px; }
 
     .site-footer {
-        bottom: 15px;
         flex-direction: column;
-        gap: 8px;
+        align-items: flex-start;
+        gap: 20px;
         padding: 0 20px;
-        text-align: center;
+        bottom: 20px;
     }
 
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
+    .footer-right {
+        flex-wrap: wrap;
+        gap: 5px;
     }
+    
+    .footer-right .living-text { font-size: 16px; }
+    .footer-right .call-friend { font-size: 48px; }
+    .footer-right .copyright { position: static; margin-left: 10px; }
 }

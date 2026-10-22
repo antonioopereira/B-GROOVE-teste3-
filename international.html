@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B Groove - International</title>
     <link rel="icon" type="image/svg+xml" href="Asset 1.svg">
-    <link rel="stylesheet" href="styledirectors.css">
+    <link rel="stylesheet" href="styleinternational.css">
 </head>
 <body>
 
@@ -17,28 +17,42 @@
                 <line x1="18" y1="6" x2="6" y2="18"></line>
             </svg>
         </button>
-
         <nav class="nav-content">
             <a href="index.html">home</a>
             <a href="directors.html">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
-            <a href="international.html">international</a>
+            <a href="international.html" class="active">international</a>
             <a href="https://spritz.com.br/" target="_blank" rel="noopener">spritz</a>
             <a href="us.html">us.</a>
             <a href="contact.html">contact</a>
         </nav>
     </div>
 
-    <!-- Logo Central -->
-    <div class="logo-container" id="logo-toggle">
-        <img src="Asset 1.svg" alt="B Groove Logo">
-    </div>
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="logo-container" id="logo-toggle">
+            <img src="Asset 1.svg" alt="B Groove Logo">
+        </div>
+        <a href="index.html" class="home-link">home</a>
+        <a href="about.html" class="about-link">ABOUT</a>
+    </header>
 
-    <!-- Galeria -->
+    <!-- Galeria (Centrada) -->
     <div class="gallery-container">
         <div class="gallery" id="gallery"></div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-left">
+            <div class="text">creative<br>production<br>house.</div>
+            <div class="red-line"></div>
+        </div>
+        <div class="footer-right">
+            <span class="copyright">all rights reserved ©</span>
+        </div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="scriptinternational.js"></script>

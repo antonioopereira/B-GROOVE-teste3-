@@ -17,7 +17,6 @@
                 <line x1="18" y1="6" x2="6" y2="18"></line>
             </svg>
         </button>
-
         <nav class="nav-content">
             <a href="index.html">home</a>
             <a href="directors.html" class="active">directors</a>
@@ -30,25 +29,55 @@
         </nav>
     </div>
 
-    <!-- Logo Central -->
-    <div class="logo-container" id="logo-toggle">
-        <img src="Asset 1.svg" alt="B Groove Logo">
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <!-- Logo em vez do menu hamburguer -->
+        <div class="logo-container" id="logo-toggle">
+            <img src="Asset 1.svg" alt="B Groove Logo">
+        </div>
+        <a href="index.html" class="home-link">home</a>
+        <a href="about.html" class="about-link">ABOUT</a>
+    </header>
+
+    <!-- Side Callouts -->
+    <div class="side-callout left">call a friend.</div>
+    <div class="side-callout right">call a friend.</div>
+
+    <!-- Slider Fullscreen -->
+    <div class="fullscreen-slider" id="slider-container">
+        
+        <button class="nav-arrow left-arrow" id="prev-btn">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="slides-wrapper" id="slides-wrapper"></div>
+
+        <button class="nav-arrow right-arrow" id="next-btn">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
     </div>
 
-    <!-- Galeria -->
-    <div class="gallery-container">
-        <div class="gallery" id="gallery"></div>
-    </div>
-
-    <!-- Submenu de Diretores — sobreposto, transparente -->
+    <!-- Submenu de Diretores -->
     <nav class="directors-submenu" id="directors-submenu">
         <a href="#" class="director-link" data-director="andre-chitas">André Chitas</a>
         <a href="#" class="director-link" data-director="goncalo-xz">Gonçalo Xz</a>
         <a href="#" class="director-link" data-director="ines-monteiro">Inês Monteiro</a>
     </nav>
 
-    <!-- Callout "Call a Friend." -->
-    <div id="filter-callout" class="filter-callout"></div>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-left">
+            <div class="text">creative<br>production<br>house.</div>
+            <div class="red-line"></div>
+        </div>
+        <div class="footer-right">
+            <span class="copyright">all rights reserved ©</span>
+        </div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="scriptdirectors.js"></script>
